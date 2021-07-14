@@ -1,13 +1,14 @@
 package com.light.cryptocurrency
 
+import android.content.SharedPreferences
 import android.os.Bundle
-import android.view.View
-import android.widget.Button
 import androidx.appcompat.app.AppCompatActivity
+
 
 
 class MainActivity : AppCompatActivity() {
 
+    private lateinit var preferences : SharedPreferences
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
