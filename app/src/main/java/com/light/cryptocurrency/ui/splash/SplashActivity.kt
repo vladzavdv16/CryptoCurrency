@@ -1,4 +1,4 @@
-package com.light.cryptocurrency
+package com.light.cryptocurrency.ui.splash
 
 import android.content.Intent
 import android.content.SharedPreferences
@@ -6,13 +6,15 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import androidx.preference.PreferenceManager
+import com.light.cryptocurrency.R
+import com.light.cryptocurrency.ui.main.MainActivity
+import com.light.cryptocurrency.ui.welcome.WelcomeActivity
 
 class SplashActivity : AppCompatActivity() {
 
     private val handler: Handler = Handler()
     private lateinit var prefs: SharedPreferences
     private lateinit var runnable: Runnable
-    val KEY_SHOW = "key"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -20,11 +22,11 @@ class SplashActivity : AppCompatActivity() {
 
         prefs = PreferenceManager.getDefaultSharedPreferences(this)
 
-        if (prefs.getBoolean(KEY_SHOW, true)) {
+        if (prefs.getBoolean(WelcomeActivity.KEY_SHOW, true)) {
             runnable = Runnable {
                 startActivity(
                     Intent(
-                        this@SplashActivity, WelcomeActivity::class.java
+                        this, WelcomeActivity::class.java
                     )
                 )
             }
@@ -32,13 +34,13 @@ class SplashActivity : AppCompatActivity() {
             runnable = Runnable {
                 startActivity(
                     Intent(
-                        this@SplashActivity, MainActivity::class.java
+                        this, MainActivity::class.java
                     )
                 )
             }
         }
 
-        handler.postDelayed(runnable, 2000)
+        handler.postDelayed(runnable, 3000)
     }
 
 

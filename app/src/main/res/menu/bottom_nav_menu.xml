@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/walletsFragment"
+        android:icon="@drawable/ic_wallet_24dp"
+        android:title="@string/wallets" />
+    <item
+        android:id="@+id/ratesFragment"
+        android:icon="@drawable/ic_rates_24dp"
+        android:title="@string/rates" />
+    <item
+        android:id="@+id/converterFragment"
+        android:icon="@drawable/ic_converter_24dp"
+        android:title="@string/converter" />
+</menu>
