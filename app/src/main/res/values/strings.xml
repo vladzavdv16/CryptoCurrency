@@ -1,5 +1,25 @@
 <resources>
     <string name="app_name">CryptoCurrency</string>
+
+    <!-- SplashActivity -->
+    <string name="cryptocurrency">CryptoCurrency</string>
+
+    <!-- WelcomeActivity -->
+    <string name="btn_welcome">Начать работу</string>
+    <string name="welcome_page_1_title">Покупка и продажа</string>
+    <string name="welcome_page_1_subtitle">Покупай когда дешево, продавай когда дорого.</string>
+    <string name="welcome_page_2_title">Курс криптовалют</string>
+    <string name="welcome_page_2_subtitle">Следи за курсом валют и вовремя реагируй на изменения динамики цены.</string>
+    <string name="welcome_page_3_title">Конвертер валют</string>
+    <string name="welcome_page_3_subtitle">Узнай сколько эфира в одном биткоине.</string>
+    <string name="start_working">Начать работу</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <!--BottomNavMenu-->
+    <string name="wallets">Кошельки</string>
+    <string name="rates">Курс</string>
+    <string name="converter">Конвертер</string>
+
+
 </resources>
