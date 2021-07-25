@@ -3,6 +3,7 @@ package com.light.cryptocurrency.data
 import androidx.annotation.NonNull
 import com.light.cryptocurrency.BuildConfig
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -65,8 +66,7 @@ class CmcCoinsRepo : CoinsRepo {
         val moshi = Moshi.Builder().build()
         builder.addConverterFactory(MoshiConverterFactory.create(
             moshi.newBuilder()
-                .add(Coin::class.java, moshi.adapter<Any>(Coin::class.java))
-                .add(Listings::class.java, moshi.adapter<Any>(Listings::class.java))
+                .addLast(KotlinJsonAdapterFactory())
                 .build()
         ))
         return builder.build()
