@@ -6,6 +6,8 @@ import retrofit2.http.Query
 
 interface CmcApi {
 
+    companion object{val API_KEY = "X-CMC_PRO_API_KEY"}
+
     @GET("cryptocurrency/listings/latest")
     fun listings(@Query("convert") convert: String?): Call<Listings?>?
 }
