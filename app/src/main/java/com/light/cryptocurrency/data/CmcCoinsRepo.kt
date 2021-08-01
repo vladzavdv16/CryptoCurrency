@@ -3,6 +3,7 @@ package com.light.cryptocurrency.data
 import androidx.annotation.NonNull
 import com.light.cryptocurrency.BuildConfig
 import com.squareup.moshi.Moshi
+import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -17,10 +18,9 @@ import java.util.*
 
 class CmcCoinsRepo : CoinsRepo {
 
-    val API_KEY = "X-CMC_PRO_API_KEY"
-    private lateinit var api : CmcApi
+    private var api: CmcApi
 
-    fun CmcCoinsRepo() {
+    init {
         api = createRetrofit(createHttpClient()).create(CmcApi::class.java)
     }
 
@@ -47,13 +47,13 @@ class CmcCoinsRepo : CoinsRepo {
         builder.addInterceptor(Interceptor { chain: Interceptor.Chain ->
             val request: Request = chain.request()
             chain.proceed(request.newBuilder()
-                .addHeader(API_KEY, BuildConfig.API_KEY)
+                .addHeader(CmcApi.API_KEY, BuildConfig.API_KEY)
                 .build())
         })
         if (BuildConfig.DEBUG) {
             val interceptor = HttpLoggingInterceptor()
             interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
-            interceptor.redactHeader(API_KEY)
+            interceptor.redactHeader(CmcApi.API_KEY)
             builder.addInterceptor(interceptor)
         }
         return builder.build()
@@ -66,8 +66,7 @@ class CmcCoinsRepo : CoinsRepo {
         val moshi = Moshi.Builder().build()
         builder.addConverterFactory(MoshiConverterFactory.create(
             moshi.newBuilder()
-                .add(Coin::class.java, moshi.adapter<Any>(Coin::class.java))
-                .add(Listings::class.java, moshi.adapter<Any>(Listings::class.java))
+                .addLast(KotlinJsonAdapterFactory())
                 .build()
         ))
         return builder.build()
