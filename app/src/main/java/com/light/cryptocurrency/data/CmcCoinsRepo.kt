@@ -4,6 +4,7 @@ import androidx.annotation.NonNull
 import com.light.cryptocurrency.BuildConfig
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
+import dagger.Component
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
@@ -14,6 +15,7 @@ import retrofit2.Retrofit
 import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 import java.util.*
+import javax.inject.Singleton
 
 
 class CmcCoinsRepo : CoinsRepo {
@@ -58,6 +60,7 @@ class CmcCoinsRepo : CoinsRepo {
         }
         return builder.build()
     }
+
 
     private fun createRetrofit(httpClient: OkHttpClient): Retrofit {
         val builder = Retrofit.Builder()
