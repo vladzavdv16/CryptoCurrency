@@ -9,23 +9,28 @@ import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
+import com.light.cryptocurrency.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.data.Coin
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
 import com.light.cryptocurrency.util.PriceFormatter
 import timber.log.Timber
+import javax.inject.Inject
 
 
-class RatesFragment : Fragment() {
+class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment() {
 
     private var binding: FragmentRatesBinding? = null
     private var adapter: RatesAdapter? = null
-    private var viewModel: RatesViewModel? = null
+    private lateinit var viewModel: RatesViewModel
+    private var component: RatesComponent = DaggerRatesComponent.builder()
+        .baseComponent(baseComponent).build()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this).get(RatesViewModel::class.java)
+        viewModel =
+            ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel::class.java)
         adapter = RatesAdapter(PriceFormatter<Double>())
 
     }
@@ -46,10 +51,10 @@ class RatesFragment : Fragment() {
         binding!!.recycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding!!.recycler.swapAdapter(adapter, false)
-        viewModel!!.coins().observe(viewLifecycleOwner,
+        viewModel.coins().observe(viewLifecycleOwner,
             { coins: List<Coin?>? -> adapter?.submitList(coins) })
 
-        viewModel!!.isRefreshing().observe(viewLifecycleOwner, { isRefreshing ->
+        viewModel.isRefreshing().observe(viewLifecycleOwner, { isRefreshing ->
             binding!!.refresher.isRefreshing = isRefreshing
         })
 
