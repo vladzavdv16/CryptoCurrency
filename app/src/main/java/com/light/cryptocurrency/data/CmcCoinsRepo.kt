@@ -19,19 +19,13 @@ import javax.inject.Singleton
 import javax.inject.Inject
 
 @Singleton
-class CmcCoinsRepo @Inject constructor(api: CmcApi?) : CoinsRepo {
+class CmcCoinsRepo @Inject constructor(private val api: CmcApi?) : CoinsRepo {
 
-    private var api: CmcApi
-
-
-    init {
-        this.api = api!!
-    }
 
     @NonNull
     @Throws(IOException::class)
     override fun listings(@NonNull currency: String?): List<Coin?>? {
-        val response: Response<Listings?> = api.listings(currency)!!.execute()
+        val response: Response<Listings?> = api?.listings(currency)!!.execute()
         if (response.isSuccessful) {
             val listings: Listings? = response.body()
             if (listings != null) {
