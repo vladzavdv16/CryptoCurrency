@@ -16,21 +16,23 @@ import retrofit2.converter.moshi.MoshiConverterFactory
 import java.io.IOException
 import java.util.*
 import javax.inject.Singleton
+import javax.inject.Inject
 
-
-class CmcCoinsRepo : CoinsRepo {
+@Singleton
+class CmcCoinsRepo @Inject constructor(api: CmcApi?) : CoinsRepo {
 
     private var api: CmcApi
 
+
     init {
-        api = createRetrofit(createHttpClient()).create(CmcApi::class.java)
+        this.api = api!!
     }
 
     @NonNull
     @Throws(IOException::class)
     override fun listings(@NonNull currency: String?): List<Coin?>? {
         val response: Response<Listings?> = api.listings(currency)!!.execute()
-        if (response.isSuccessful()) {
+        if (response.isSuccessful) {
             val listings: Listings? = response.body()
             if (listings != null) {
                 return listings.data
@@ -42,36 +44,5 @@ class CmcCoinsRepo : CoinsRepo {
             }
         }
         return Collections.emptyList()
-    }
-
-    private fun createHttpClient(): OkHttpClient {
-        val builder = OkHttpClient.Builder()
-        builder.addInterceptor(Interceptor { chain: Interceptor.Chain ->
-            val request: Request = chain.request()
-            chain.proceed(request.newBuilder()
-                .addHeader(CmcApi.API_KEY, BuildConfig.API_KEY)
-                .build())
-        })
-        if (BuildConfig.DEBUG) {
-            val interceptor = HttpLoggingInterceptor()
-            interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
-            interceptor.redactHeader(CmcApi.API_KEY)
-            builder.addInterceptor(interceptor)
-        }
-        return builder.build()
-    }
-
-
-    private fun createRetrofit(httpClient: OkHttpClient): Retrofit {
-        val builder = Retrofit.Builder()
-        builder.client(httpClient)
-        builder.baseUrl(BuildConfig.API_ENDPOINT)
-        val moshi = Moshi.Builder().build()
-        builder.addConverterFactory(MoshiConverterFactory.create(
-            moshi.newBuilder()
-                .addLast(KotlinJsonAdapterFactory())
-                .build()
-        ))
-        return builder.build()
     }
 }

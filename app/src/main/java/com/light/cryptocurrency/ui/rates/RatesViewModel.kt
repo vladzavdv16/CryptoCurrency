@@ -7,20 +7,20 @@ import androidx.lifecycle.ViewModel
 import com.light.cryptocurrency.data.CmcCoinsRepo
 import com.light.cryptocurrency.data.Coin
 import com.light.cryptocurrency.data.CoinsRepo
+import timber.log.Timber
 import java.io.IOException
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 import java.util.concurrent.Future
+import javax.inject.Inject
 
-class RatesViewModel : ViewModel() {
+class RatesViewModel @Inject constructor(val coinsRepo: CoinsRepo) : ViewModel() {
 
     private var isRefreshing: MutableLiveData<Boolean> = MutableLiveData()
 
     private var coins: MutableLiveData<List<Coin?>> = MutableLiveData()
 
     private val executor: ExecutorService = Executors.newSingleThreadExecutor()
-
-    private var repo: CoinsRepo = CmcCoinsRepo()
 
     private var future: Future<*>? = null
 
@@ -42,10 +42,10 @@ class RatesViewModel : ViewModel() {
         isRefreshing.postValue(true)
         future = executor.submit {
             try {
-                coins.postValue(repo.listings("USD"))
+                coins.postValue(coinsRepo.listings("USD"))
                 isRefreshing.postValue(false)
             } catch (e: IOException) {
-                e.printStackTrace()
+                Timber.e(e)
             }
         }
     }

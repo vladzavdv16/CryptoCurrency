@@ -12,9 +12,10 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.FragmentWalletsBinding
+import javax.inject.Inject
 
 
-class WalletsFragment : Fragment() {
+class WalletsFragment @Inject constructor() : Fragment() {
 
     private lateinit var helper: SnapHelper
 

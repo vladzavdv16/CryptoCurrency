@@ -6,9 +6,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import com.light.cryptocurrency.R
+import javax.inject.Inject
 
 
-class ConverterFragment : Fragment() {
+class ConverterFragment @Inject constructor() : Fragment() {
 
     override fun onCreateView(
         inflater: LayoutInflater,

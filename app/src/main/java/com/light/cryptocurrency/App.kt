@@ -7,7 +7,7 @@ import timber.log.Timber
 
 class App : Application() {
 
-    private lateinit var component: AppComponent
+    lateinit var component: BaseComponent
 
     override fun onCreate() {
         super.onCreate()
@@ -18,6 +18,9 @@ class App : Application() {
 
         component = DaggerAppComponent.builder()
             .application(this)!!.build()
+
+        Timber.d("%s", component.coinsRepo())
+        Timber.d("%s", component.coinsRepo())
 
     }
 }
