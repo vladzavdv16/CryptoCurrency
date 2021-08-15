@@ -51,7 +51,6 @@ class RatesAdapter(private val priceFormatter: Formatter<Double>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val coin = getItem(position)
-        val priceFormat = NumberFormat.getCurrencyInstance()
         holder.binding.symbol.text = coin.symbol
         holder.binding.price.text = priceFormatter.format(coin.price())
         holder.binding.change.text = String.format(Locale.US, "%.2f%%", coin.change24h())

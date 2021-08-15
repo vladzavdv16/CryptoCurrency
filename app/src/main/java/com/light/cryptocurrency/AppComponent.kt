@@ -14,12 +14,13 @@ import javax.inject.Singleton
 @Component(
     modules = [AppModule::class, DataModule::class]
 )
-abstract class AppComponent : BaseComponent{
+abstract class AppComponent : BaseComponent {
 
     @Component.Builder
     abstract class Builder {
         @BindsInstance
-        abstract fun application(app: Application): Builder?
+        abstract fun application(app: Application): Builder
+
         abstract fun build(): AppComponent
     }
 }
