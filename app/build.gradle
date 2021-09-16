@@ -1,6 +1,7 @@
 plugins {
     id 'com.android.application'
     id 'kotlin-android'
+    id 'kotlin-kapt'
 }
 
 android {
@@ -14,7 +15,8 @@ android {
         versionName "1.0"
 
         buildConfigField "String", "API_KEY", "\"${pApiKey}\""
-        buildConfigField "String", "API_ENDPOINT", "https://pro-api.coinmarketcap.com/v1/cryptocurrency/listings/latest"
+        buildConfigField "String", "API_ENDPOINT", '"https://pro-api.coinmarketcap.com/v1/"'
+        buildConfigField "String", "IMG_ENDPOINT", '"https://s2.coinmarketcap.com/static/img/coins/128x128/"'
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
     }
@@ -60,4 +62,16 @@ dependencies {
     implementation "com.squareup.retrofit2:converter-moshi:2.8.1"
     implementation 'com.squareup.picasso:picasso:2.71828'
     implementation("com.squareup.moshi:moshi-kotlin:1.12.0")
+
+    // ViewModel
+    implementation("androidx.lifecycle:lifecycle-viewmodel-ktx:2.3.1")
+    // LiveData
+    implementation("androidx.lifecycle:lifecycle-livedata-ktx:2.3.1")
+
+    implementation 'com.jakewharton.timber:timber:4.7.1'
+
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+
+    implementation 'com.google.dagger:dagger:2.28.3'
+    kapt 'com.google.dagger:dagger-compiler:2.25.2'
 }

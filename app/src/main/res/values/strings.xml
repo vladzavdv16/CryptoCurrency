@@ -21,5 +21,14 @@
     <string name="rates">Курс</string>
     <string name="converter">Конвертер</string>
 
+    <!--RatesMenu-->
+    <string name="currency_menu">Выбор валюты</string>
+    <string name="sort_menu">Сортировать</string>
+
+    <!--CurrencyDialog-->
+    <string name="usd">Доллар</string>
+    <string name="euro">Евро</string>
+    <string name="rub">Рубль</string>
+
 
 </resources>
