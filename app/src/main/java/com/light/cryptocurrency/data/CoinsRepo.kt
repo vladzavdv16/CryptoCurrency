@@ -1,5 +1,6 @@
 package com.light.cryptocurrency.data
 
+import AutoValue_CoinsRepo_Query
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,7 +20,7 @@ interface CoinsRepo {
 
         companion object {
             fun builder(): Builder {
-                return builder().forceUpdate(true)
+                return AutoValue_CoinsRepo_Query.Companion.Builder().forceUpdate(true)
             }
         }
 
@@ -27,10 +28,10 @@ interface CoinsRepo {
         abstract fun forceUpdate(): Boolean
 
 
-        interface Builder {
-            fun currency(currency: String): Builder
-            fun forceUpdate(forceUpdate: Boolean): Builder
-            fun build(): Query?
+        abstract class Builder {
+            abstract fun currency(currency: String): Builder
+            abstract fun forceUpdate(forceUpdate: Boolean): Builder
+            abstract fun build(): Query?
         }
     }
 
