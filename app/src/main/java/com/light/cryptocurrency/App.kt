@@ -17,7 +17,7 @@ class App : Application() {
         }
 
         component = DaggerAppComponent.builder()
-            .application(this)!!.build()
+            .application(this).build()
 
         Timber.d("%s", component.coinsRepo())
         Timber.d("%s", component.coinsRepo())

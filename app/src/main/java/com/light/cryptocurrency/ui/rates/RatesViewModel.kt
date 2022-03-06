@@ -1,58 +1,57 @@
 package com.light.cryptocurrency.ui.rates
 
-import androidx.annotation.NonNull
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.map
+import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
-import com.light.cryptocurrency.data.CmcCoinsRepo
-import com.light.cryptocurrency.data.Coin
-import com.light.cryptocurrency.data.CoinsRepo
-import timber.log.Timber
-import java.io.IOException
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 import javax.inject.Inject
 
-class RatesViewModel @Inject constructor(val coinsRepo: CoinsRepo) : ViewModel() {
+import com.light.cryptocurrency.data.Coin
+import com.light.cryptocurrency.data.CoinsRepo
+import com.light.cryptocurrency.data.CurrencyRepo
 
-    private var isRefreshing: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var coins: MutableLiveData<List<Coin?>> = MutableLiveData()
+class RatesViewModel @Inject constructor(val coinsRepo: CoinsRepo, val currencyRepo: CurrencyRepo) :
+    ViewModel() {
 
-    private val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    private var future: Future<*>? = null
+    private val isRefreshing = MutableLiveData<Boolean>()
+
+    private val forceRefresh = MutableLiveData<Boolean>(false)
+
+    private val coins: LiveData<List<Coin>>
+
+    // AppComponent(BaseComponent) -> MainComponent -> Fragment(BaseComponent) -> RatesComponent -> RatesViewModel()
 
     init {
-        refresh()
+        val query = map(forceRefresh) { r ->
+            isRefreshing.postValue(true)
+            CoinsRepo.Query.builder().forceUpdate(r).currency("USD").build()
+        }
+        val coins = switchMap(query) { q ->
+            coinsRepo.listings(q)
+        }
+        this.coins = map(coins) { c ->
+            isRefreshing.postValue(false)
+            c
+        }
     }
 
-    @NonNull
-    fun coins(): LiveData<List<Coin?>> {
+    fun coins(): LiveData<List<Coin>> {
         return coins
     }
 
-    @NonNull
     fun isRefreshing(): LiveData<Boolean> {
         return isRefreshing
     }
 
-    private fun refresh() {
-        isRefreshing.postValue(true)
-        future = executor.submit {
-            try {
-                coins.postValue(coinsRepo.listings("USD"))
-                isRefreshing.postValue(false)
-            } catch (e: IOException) {
-                Timber.e(e)
-            }
-        }
+    fun refresh() {
+        forceRefresh.postValue(true)
     }
 
     override fun onCleared() {
-        if (future != null) {
-            future!!.cancel(true)
-        }
     }
 }
+

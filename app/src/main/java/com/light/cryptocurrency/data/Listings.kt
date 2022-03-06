@@ -1,4 +1,4 @@
 package com.light.cryptocurrency.data
 
-data class Listings(val data: List<Coin>) {
+data class Listings(val data: List<CmcCoin>) {
 }

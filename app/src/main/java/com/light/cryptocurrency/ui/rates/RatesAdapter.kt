@@ -51,15 +51,14 @@ class RatesAdapter(private val priceFormatter: Formatter<Double>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val coin = getItem(position)
-        val priceFormat = NumberFormat.getCurrencyInstance()
         holder.binding.symbol.text = coin.symbol
-        holder.binding.price.text = priceFormatter.format(coin.price())
-        holder.binding.change.text = String.format(Locale.US, "%.2f%%", coin.change24h())
-        if (coin.change24h() > 0) {
-            holder.binding.change.setTextColor(colorPositive)
-        } else {
-            holder.binding.change.setTextColor(colorNegative)
-        }
+//        holder.binding.price.text = priceFormatter.format(coin.price())
+//        holder.binding.change.text = String.format(Locale.US, "%.2f%%", coin.change24h())
+//        if (coin.change24h() > 0) {
+//            holder.binding.change.setTextColor(colorPositive)
+//        } else {
+//            holder.binding.change.setTextColor(colorNegative)
+//        }
 
         Picasso.get()
             .load(BuildConfig.IMG_ENDPOINT + coin.id + ".png")

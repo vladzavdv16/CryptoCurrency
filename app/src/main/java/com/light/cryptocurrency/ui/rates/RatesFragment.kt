@@ -53,7 +53,6 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
         binding!!.recycler.swapAdapter(adapter, false)
         viewModel.coins().observe(viewLifecycleOwner,
             { coins: List<Coin?>? -> adapter?.submitList(coins) })
-
         viewModel.isRefreshing().observe(viewLifecycleOwner, { isRefreshing ->
             binding!!.refresher.isRefreshing = isRefreshing
         })

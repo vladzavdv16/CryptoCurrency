@@ -40,10 +40,9 @@ class CurrencyDialog : AppCompatDialogFragment() {
         binding?.recycler?.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         binding?.recycler?.adapter = adapter
-//        currencyRepo?.availableCurrencies()
-//            ?.observe(this, { currency: List<Currency> ->
-//                adapter?.submitList(currency)
-//            })
+        currencyRepo?.availableCurrencies()?.observe(this) { currency: List<Currency?>? ->
+            adapter?.submitList(currency)
+        }
     }
 
     override fun onDestroyView() {
