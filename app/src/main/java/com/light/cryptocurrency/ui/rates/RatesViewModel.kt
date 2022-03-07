@@ -13,13 +13,14 @@ import com.light.cryptocurrency.data.CoinsRepo
 import com.light.cryptocurrency.data.CurrencyRepo
 
 
-class RatesViewModel @Inject constructor(val coinsRepo: CoinsRepo, val currencyRepo: CurrencyRepo) :
-    ViewModel() {
+class RatesViewModel @Inject constructor(
+    val coinsRepo: CoinsRepo,
+    val currencyRepo: CurrencyRepo) : ViewModel() {
 
 
     private val isRefreshing = MutableLiveData<Boolean>()
 
-    private val forceRefresh = MutableLiveData<Boolean>(false)
+    private val forceRefresh = MutableLiveData(false)
 
     private val coins: LiveData<List<Coin>>
 

@@ -12,7 +12,7 @@ class ViewModelFactory @Inject constructor(private var providers: Map<Class<*>, 
     ViewModelProvider.NewInstanceFactory() {
 
     @NonNull
-    override fun <T : ViewModel?> create(@NonNull modelClass: Class<T>): T {
+    override fun <T : ViewModel> create(modelClass: Class<T>): T {
         val provider = providers[modelClass]
         return if (provider != null) {
             provider.get() as T
