@@ -1,4 +1,4 @@
-package com.light.cryptocurrency.data
+package com.light.cryptocurrency.data.repositories
 
 import android.content.Context
 import androidx.lifecycle.LiveData
@@ -9,6 +9,7 @@ import javax.inject.Singleton
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
+import com.light.cryptocurrency.data.model.Currency
 
 
 @Singleton
@@ -23,9 +24,10 @@ class CurrencyRepoImpl @Inject constructor(val context: Context) : CurrencyRepo 
 
     init {
         this.prefs = PreferenceManager.getDefaultSharedPreferences(context)
-        availableCurrencies["USD"] = Currency("$", "USD", context.getString(R.string.usd));
-        availableCurrencies["EUR"] = Currency("E", "EUR", context.getString(R.string.euro));
-        availableCurrencies["RUB"] = Currency("R", "RUB", context.getString(R.string.rub));
+        availableCurrencies["USD"] = Currency("$", "USD", context.getString(R.string.usd))
+        availableCurrencies["EUR"] = Currency("E", "EUR", context.getString(R.string.euro))
+        availableCurrencies["RUB"] = Currency("R", "RUB", context.getString(R.string.rub))
+        println("Currency Repo")
     }
 
 
@@ -40,6 +42,7 @@ class CurrencyRepoImpl @Inject constructor(val context: Context) : CurrencyRepo 
     }
 
     override fun updateCurrency(currency: Currency) {
+        prefs?.edit()?.putString(KEY_CURRENCY,currency.code)?.apply()
     }
 
     inner class CurrencyLiveData : LiveData<Currency>(),

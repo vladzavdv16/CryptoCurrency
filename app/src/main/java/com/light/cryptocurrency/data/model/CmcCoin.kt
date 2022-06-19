@@ -1,20 +1,28 @@
-package com.light.cryptocurrency.data
+package com.light.cryptocurrency.data.model
 
 import com.squareup.moshi.Json
 
-
-data class Coin(
-    val id: Int, val name: String, val symbol: String,
+data class CmcCoin(
+    override val id: Int,
+    override val name: String,
+    override val symbol: String,
     @Json(name = "cmc_rank")
-    val rank: Int,
+    override val rank: Int,
     val quote: Map<String, Quote?>?,
-) {
-    fun price(): Double {
+    override val currencyCode: String? = null
+) : Coin {
+
+    override val price: Double = price()
+
+    override val change24h: Double = change24h()
+
+
+    private fun price(): Double {
         val iterator: Iterator<Quote?> = quote?.values!!.iterator()
         return if (iterator.hasNext()) iterator.next()!!.price else 0.0
     }
 
-    fun change24h(): Double {
+    private fun change24h(): Double {
         val iterator: Iterator<Quote?> = quote?.values!!.iterator()
         return if (iterator.hasNext()) iterator.next()!!.change24h else 0.0
     }
@@ -24,5 +32,4 @@ data class Coin(
         @Json(name = "percent_change_24h")
         val change24h: Double,
     )
-
 }

@@ -1,58 +1,67 @@
 package com.light.cryptocurrency.ui.rates
 
-import androidx.annotation.NonNull
+
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
+import androidx.lifecycle.Transformations.map
+import androidx.lifecycle.Transformations.switchMap
 import androidx.lifecycle.ViewModel
-import com.light.cryptocurrency.data.CmcCoinsRepo
-import com.light.cryptocurrency.data.Coin
-import com.light.cryptocurrency.data.CoinsRepo
-import timber.log.Timber
-import java.io.IOException
-import java.util.concurrent.ExecutorService
-import java.util.concurrent.Executors
-import java.util.concurrent.Future
 import javax.inject.Inject
 
-class RatesViewModel @Inject constructor(val coinsRepo: CoinsRepo) : ViewModel() {
+import com.light.cryptocurrency.data.model.Coin
+import com.light.cryptocurrency.data.repositories.CoinsRepo
+import com.light.cryptocurrency.data.repositories.CurrencyRepo
+import com.light.cryptocurrency.data.SortBy
+import java.util.concurrent.atomic.AtomicBoolean
 
-    private var isRefreshing: MutableLiveData<Boolean> = MutableLiveData()
 
-    private var coins: MutableLiveData<List<Coin?>> = MutableLiveData()
+class RatesViewModel @Inject constructor(
+    val coinsRepo: CoinsRepo,
+    val currencyRepo: CurrencyRepo
+): ViewModel() {
 
-    private val executor: ExecutorService = Executors.newSingleThreadExecutor()
 
-    private var future: Future<*>? = null
+    private val isRefreshing = MutableLiveData<Boolean>()
+
+    private val forceRefresh = MutableLiveData(AtomicBoolean(false))
+
+    private val sortBy = MutableLiveData(SortBy.RANK)
+
+    private val coins: LiveData<List<Coin>>
+
+    private var sortingIndex = 2
+
+    // AppComponent(BaseComponent) -> MainComponent -> Fragment(BaseComponent) -> RatesComponent -> RatesViewModel()
 
     init {
-        refresh()
-    }
-
-    @NonNull
-    fun coins(): LiveData<List<Coin?>> {
-        return coins
-    }
-
-    @NonNull
-    fun isRefreshing(): LiveData<Boolean> {
-        return isRefreshing
-    }
-
-    private fun refresh() {
-        isRefreshing.postValue(true)
-        future = executor.submit {
-            try {
-                coins.postValue(coinsRepo.listings("USD"))
-                isRefreshing.postValue(false)
-            } catch (e: IOException) {
-                Timber.e(e)
+        val query = switchMap(forceRefresh) { r ->
+            switchMap(currencyRepo.currency()) { c ->
+                r.set(true)
+                isRefreshing.postValue(true)
+                map(sortBy){ s ->
+                    CoinsRepo.Query.builder()
+                        .forceUpdate(r.getAndSet(false))
+                        .currency(c.code)
+                        .sortBy(s)
+                        .build()
+                }
             }
         }
-    }
-
-    override fun onCleared() {
-        if (future != null) {
-            future!!.cancel(true)
+        val coins = switchMap(query) { q ->
+            coinsRepo.listings(q)
+        }
+        this.coins = map(coins) { c ->
+            isRefreshing.postValue(false)
+            c
         }
     }
+
+    fun coins(): LiveData<List<Coin>> = coins
+
+    fun isRefreshing(): LiveData<Boolean> = isRefreshing
+
+    fun refresh() = forceRefresh.postValue(AtomicBoolean(true))
+
+    fun switchOrderSorter() = sortBy.postValue(SortBy.values()[sortingIndex++ % SortBy.values().size])
 }
+

@@ -1,20 +1,15 @@
 package com.light.cryptocurrency.ui.rates
 
-import android.annotation.SuppressLint
 import android.os.Bundle
-import android.util.Log
 import android.view.*
 import androidx.fragment.app.Fragment
-import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.light.cryptocurrency.BaseComponent
+import com.light.cryptocurrency.di.BaseComponent
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.Coin
+import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
-import com.light.cryptocurrency.util.PriceFormatter
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -31,17 +26,9 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
 
         viewModel =
             ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel::class.java)
-        adapter = RatesAdapter(PriceFormatter<Double>())
-
+        adapter = component.ratesAdapter()
     }
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?,
-    ): View? {
-        return inflater.inflate(R.layout.fragment_rates, container, false)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -51,13 +38,27 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
         binding!!.recycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding!!.recycler.swapAdapter(adapter, false)
+        binding!!.recycler.setHasFixedSize(true)
+        binding!!.refresher.setOnRefreshListener(viewModel::refresh)
         viewModel.coins().observe(viewLifecycleOwner,
             { coins: List<Coin?>? -> adapter?.submitList(coins) })
-
         viewModel.isRefreshing().observe(viewLifecycleOwner, { isRefreshing ->
             binding!!.refresher.isRefreshing = isRefreshing
         })
+    }
 
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View? {
+        return inflater.inflate(R.layout.fragment_rates, container, false)
+    }
+
+    override fun onResume() {
+        super.onResume()
+
+        println("onResume")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -71,14 +72,15 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
             NavHostFragment.findNavController(this)
                 .navigate(R.id.currencyDialog)
             return true
+        } else if (R.id.sort == item.itemId) {
+            viewModel.switchOrderSorter()
+            return true
         }
         return super.onOptionsItemSelected(item)
-
-
     }
 
     override fun onDestroyView() {
-        binding!!.recycler.swapAdapter(null, false)
+        binding?.recycler?.swapAdapter(null, false)
         super.onDestroyView()
     }
 

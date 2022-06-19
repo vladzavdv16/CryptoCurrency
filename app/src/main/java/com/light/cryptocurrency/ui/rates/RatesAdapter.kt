@@ -1,28 +1,29 @@
 package com.light.cryptocurrency.ui.rates
 
 import android.graphics.Color
-import android.graphics.Outline
 import android.util.TypedValue
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
-import android.view.ViewOutlineProvider
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.light.cryptocurrency.BuildConfig
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.Coin
+import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.databinding.LiRatesBinding
-import com.light.cryptocurrency.util.Formatter
+import com.light.cryptocurrency.util.loader.ImageLoader
 import com.light.cryptocurrency.util.OutlineCircle
-import com.light.cryptocurrency.util.PriceFormatter
-import com.squareup.picasso.Picasso
-import java.text.NumberFormat
+import com.light.cryptocurrency.util.formatter.PercentFormatter
+import com.light.cryptocurrency.util.formatter.PriceFormatter
 import java.util.*
+import javax.inject.Inject
 
 
-class RatesAdapter(private val priceFormatter: Formatter<Double>) :
+class RatesAdapter @Inject constructor(
+    private val priceFormatter: PriceFormatter,
+    private val percentFormatter: PercentFormatter,
+    private val imageLoader: ImageLoader
+) :
     ListAdapter<Coin, RatesAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     private var colorNegative = Color.RED
@@ -39,6 +40,10 @@ class RatesAdapter(private val priceFormatter: Formatter<Double>) :
         override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
             return Objects.equals(oldItem, newItem)
         }
+
+        override fun getChangePayload(oldItem: Coin, newItem: Coin): Any {
+            return newItem
+        }
     }
 
     override fun getItemId(position: Int): Long {
@@ -51,19 +56,28 @@ class RatesAdapter(private val priceFormatter: Formatter<Double>) :
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val coin = getItem(position)
-        val priceFormat = NumberFormat.getCurrencyInstance()
         holder.binding.symbol.text = coin.symbol
-        holder.binding.price.text = priceFormatter.format(coin.price())
-        holder.binding.change.text = String.format(Locale.US, "%.2f%%", coin.change24h())
-        if (coin.change24h() > 0) {
+        holder.binding.price.text = priceFormatter.format(coin.currencyCode, coin.price)
+        holder.binding.change.text = percentFormatter.format(coin.change24h)
+        if (coin.change24h > 0) {
             holder.binding.change.setTextColor(colorPositive)
         } else {
             holder.binding.change.setTextColor(colorNegative)
         }
 
-        Picasso.get()
+        imageLoader
             .load(BuildConfig.IMG_ENDPOINT + coin.id + ".png")
             .into(holder.binding.logo)
+    }
+
+    override fun onBindViewHolder(holder: ViewHolder, position: Int, payloads: MutableList<Any>) {
+        if (payloads.isEmpty()) {
+            onBindViewHolder(holder, position)
+        } else {
+            val coin = payloads.get(0) as Coin
+            holder.binding.price.text = priceFormatter.format(coin.currencyCode, coin.price)
+            holder.binding.change.text = percentFormatter.format(coin.change24h)
+        }
     }
 
     override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
@@ -83,6 +97,5 @@ class RatesAdapter(private val priceFormatter: Formatter<Double>) :
         init {
             OutlineCircle.apply(binding.logo)
         }
-
     }
 }
