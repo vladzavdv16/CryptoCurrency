@@ -7,7 +7,7 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-class LoftFragmentFactory @Inject constructor(private val providers: Map<Class<*>, @JvmSuppressWildcards Provider<Fragment>>) :
+class CoinsFragmentFactory @Inject constructor(private val providers: Map<Class<*>, @JvmSuppressWildcards Provider<Fragment>>) :
     FragmentFactory() {
 
 

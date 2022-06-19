@@ -1,7 +1,7 @@
 package com.light.cryptocurrency.ui.rates
 
 import androidx.lifecycle.ViewModelProvider
-import com.light.cryptocurrency.BaseComponent
+import com.light.cryptocurrency.di.BaseComponent
 import com.light.cryptocurrency.util.ViewModelModule
 import dagger.Component
 import javax.inject.Singleton
@@ -14,4 +14,6 @@ import javax.inject.Singleton
 abstract class RatesComponent {
 
     abstract fun viewModelFactory(): ViewModelProvider.Factory
+
+    abstract fun ratesAdapter(): RatesAdapter
 }

@@ -19,4 +19,10 @@ class ConverterFragment @Inject constructor() : Fragment() {
         return inflater.inflate(R.layout.fragment_converter, container, false)
     }
 
+    override fun onResume() {
+        super.onResume()
+
+        println("Converter")
+    }
+
 }

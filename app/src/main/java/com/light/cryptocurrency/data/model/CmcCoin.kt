@@ -1,4 +1,4 @@
-package com.light.cryptocurrency.data
+package com.light.cryptocurrency.data.model
 
 import com.squareup.moshi.Json
 
@@ -9,15 +9,20 @@ data class CmcCoin(
     @Json(name = "cmc_rank")
     override val rank: Int,
     val quote: Map<String, Quote?>?,
+    override val currencyCode: String? = null
 ) : Coin {
 
+    override val price: Double = price()
 
-    override fun price(): Double {
+    override val change24h: Double = change24h()
+
+
+    private fun price(): Double {
         val iterator: Iterator<Quote?> = quote?.values!!.iterator()
         return if (iterator.hasNext()) iterator.next()!!.price else 0.0
     }
 
-    override fun change24h(): Double {
+    private fun change24h(): Double {
         val iterator: Iterator<Quote?> = quote?.values!!.iterator()
         return if (iterator.hasNext()) iterator.next()!!.change24h else 0.0
     }
