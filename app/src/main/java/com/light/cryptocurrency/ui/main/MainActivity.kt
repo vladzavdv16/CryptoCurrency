@@ -9,7 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.light.cryptocurrency.App
-import com.light.cryptocurrency.BaseComponent
+import com.light.cryptocurrency.di.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.ActivityMainBinding
 import javax.inject.Inject
@@ -36,7 +36,6 @@ class MainActivity : AppCompatActivity() {
         val binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
         setSupportActionBar(binding.toolbar)
-
 
         val findNavController: NavController = Navigation.findNavController(this, R.id.main_host)
         NavigationUI.setupWithNavController(binding.bottomNavMenu, findNavController)

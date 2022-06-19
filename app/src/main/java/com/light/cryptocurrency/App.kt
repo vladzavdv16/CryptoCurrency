@@ -2,6 +2,8 @@ package com.light.cryptocurrency
 
 import android.app.Application
 import android.os.StrictMode
+import com.light.cryptocurrency.di.BaseComponent
+import com.light.cryptocurrency.di.DaggerAppComponent
 import com.light.cryptocurrency.util.DebugThree
 import timber.log.Timber
 

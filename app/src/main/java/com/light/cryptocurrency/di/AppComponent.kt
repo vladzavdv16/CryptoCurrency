@@ -1,18 +1,15 @@
-package com.light.cryptocurrency
+package com.light.cryptocurrency.di
 
 import android.app.Application
-import android.content.Context
-import android.provider.ContactsContract
-import com.light.cryptocurrency.data.CoinsRepo
-import com.light.cryptocurrency.data.CurrencyRepo
-import com.light.cryptocurrency.data.DataModule
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
 
 @Singleton
 @Component(
-    modules = [AppModule::class, DataModule::class]
+    modules = [AppModule::class,
+        DataModule::class,
+        UtilModule::class]
 )
 abstract class AppComponent : BaseComponent {
 

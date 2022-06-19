@@ -1,4 +1,4 @@
-package com.light.cryptocurrency.data
+package com.light.cryptocurrency.data.database
 
 import androidx.annotation.WorkerThread
 import androidx.lifecycle.LiveData
@@ -12,6 +12,12 @@ interface CoinsDao {
 
     @Query("SELECT * FROM RoomCoin")
     fun fetchAll(): LiveData<List<RoomCoin>>
+
+    @Query("SELECT * FROM RoomCoin ORDER BY rank ASC")
+    fun fetchAllSortByRank(): LiveData<List<RoomCoin>>
+
+    @Query("SELECT * FROM RoomCoin ORDER BY price DESC")
+    fun fetchAllSortByPrice(): LiveData<List<RoomCoin>>
 
     @WorkerThread
     @Query("SELECT COUNT(id) FROM RoomCoin")

@@ -1,8 +1,14 @@
-package com.light.cryptocurrency.data
+package com.light.cryptocurrency.di
 
 import android.content.Context
 import androidx.room.Room
 import com.light.cryptocurrency.BuildConfig
+import com.light.cryptocurrency.data.api.CmcApi
+import com.light.cryptocurrency.data.database.CoinsDatabase
+import com.light.cryptocurrency.data.repositories.CoinsRepo
+import com.light.cryptocurrency.data.repositories.CoinsRepoImpl
+import com.light.cryptocurrency.data.repositories.CurrencyRepo
+import com.light.cryptocurrency.data.repositories.CurrencyRepoImpl
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
@@ -26,28 +32,6 @@ abstract class DataModule {
     companion object {
 
         @JvmStatic
-        @Singleton
-        @Provides
-        fun httpClient(executor: ExecutorService): OkHttpClient {
-            val builder = OkHttpClient.Builder()
-            builder.dispatcher(Dispatcher(executor))
-            builder.addInterceptor(Interceptor { chain ->
-                val request: Request = chain.request()
-                chain.proceed(request.newBuilder()
-                    .addHeader(CmcApi.API_KEY, BuildConfig.API_KEY)
-                    .build())
-            })
-            if (BuildConfig.DEBUG) {
-                val interceptor = HttpLoggingInterceptor()
-                interceptor.setLevel(HttpLoggingInterceptor.Level.HEADERS)
-                interceptor.redactHeader(CmcApi.API_KEY)
-                builder.addInterceptor(interceptor)
-            }
-            return builder.build()
-        }
-
-
-        @JvmStatic
         @Provides
         fun moshi(): Moshi {
             val moshi = Moshi.Builder().build()
@@ -61,7 +45,15 @@ abstract class DataModule {
         @Provides
         fun retrofit(httpClient: OkHttpClient, moshi: Moshi): Retrofit {
             val builder = Retrofit.Builder()
-            builder.client(httpClient)
+            builder.client(httpClient.newBuilder()
+                .addInterceptor(Interceptor { chain ->
+                    val request: Request = chain.request()
+                    chain.proceed(
+                        request.newBuilder()
+                            .addHeader(CmcApi.API_KEY, BuildConfig.API_KEY)
+                            .build())
+                }).build()
+            )
             builder.baseUrl(BuildConfig.API_ENDPOINT)
             builder.addConverterFactory(MoshiConverterFactory.create(moshi))
             return builder.build()
@@ -77,19 +69,17 @@ abstract class DataModule {
         @JvmStatic
         @Provides
         @Singleton
-        fun loftDatabase(context: Context): LoftDatabase {
+        fun loftDatabase(context: Context): CoinsDatabase {
             return if (BuildConfig.DEBUG) {
-                Room.inMemoryDatabaseBuilder(context, LoftDatabase::class.java).build()
+                Room.inMemoryDatabaseBuilder(context, CoinsDatabase::class.java).build()
             } else {
-                return Room.databaseBuilder(context, LoftDatabase::class.java, "loft.db").build()
+                return Room.databaseBuilder(context, CoinsDatabase::class.java, "loft.db").build()
             }
-
         }
     }
 
     @Binds
-    abstract fun coinsRepo(impl: CmcCoinsRepo?): CoinsRepo?
-
+    abstract fun coinsRepo(impl: CoinsRepoImpl?): CoinsRepo?
 
     @Binds
     abstract fun currencyRepo(impl: CurrencyRepoImpl): CurrencyRepo

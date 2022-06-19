@@ -3,7 +3,7 @@ package com.light.cryptocurrency.ui.currency
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.light.cryptocurrency.data.Currency
+import com.light.cryptocurrency.data.model.Currency
 import androidx.recyclerview.widget.RecyclerView
 
 import android.view.LayoutInflater

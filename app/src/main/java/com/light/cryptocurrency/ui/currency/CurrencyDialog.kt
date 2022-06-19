@@ -3,28 +3,36 @@ package com.light.cryptocurrency.ui.currency
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
+import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
+import com.light.cryptocurrency.di.BaseComponent
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.Currency
-import com.light.cryptocurrency.data.CurrencyRepo
-import com.light.cryptocurrency.data.CurrencyRepoImpl
 import com.light.cryptocurrency.databinding.DialogCurrencyBinding
+import com.light.cryptocurrency.widget.OnItemClick
+import javax.inject.Inject
 
-class CurrencyDialog : AppCompatDialogFragment() {
+class CurrencyDialog @Inject constructor(baseComponent: BaseComponent) : AppCompatDialogFragment() {
 
     private var binding: DialogCurrencyBinding? = null
 
-    private var currencyRepo: CurrencyRepo? = null
-
     private var adapter: CurrencyAdapter? = null
+
+    private lateinit var viewModel: CurrencyViewModel
+
+    private var onItemClick: OnItemClick? = null
+
+    private var component = DaggerCurrencyComponent.builder()
+        .baseComponent(baseComponent).build()
+
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        viewModel =
+            ViewModelProvider(this, component.viewModelFactory()).get(CurrencyViewModel::class.java)
+
         adapter = CurrencyAdapter()
-        currencyRepo = CurrencyRepoImpl(requireActivity())
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
@@ -35,14 +43,24 @@ class CurrencyDialog : AppCompatDialogFragment() {
             .create()
     }
 
-    override fun onResume() {
-        super.onResume()
+
+    override fun onActivityCreated(savedInstanceState: Bundle?) {
+        super.onActivityCreated(savedInstanceState)
+
         binding?.recycler?.layoutManager =
             LinearLayoutManager(requireActivity(), LinearLayoutManager.VERTICAL, false)
         binding?.recycler?.adapter = adapter
-        currencyRepo?.availableCurrencies()?.observe(this) { currency: List<Currency?>? ->
+        viewModel.allCurrency().observe(this, { currency ->
             adapter?.submitList(currency)
+        })
+        onItemClick = OnItemClick { view ->
+            val viewHolder = binding!!.recycler.findContainingViewHolder(view)
+            if (viewHolder != null) {
+                viewModel.updateCurrency(adapter!!.getItem(viewHolder.adapterPosition))
+            }
+            dismissAllowingStateLoss()
         }
+        binding!!.recycler.addOnItemTouchListener(onItemClick!!)
     }
 
     override fun onDestroyView() {

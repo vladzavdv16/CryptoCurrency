@@ -2,7 +2,7 @@ package com.light.cryptocurrency.ui.main
 
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentFactory
-import com.light.cryptocurrency.util.LoftFragmentFactory
+import com.light.cryptocurrency.util.CoinsFragmentFactory
 import dagger.Binds
 import dagger.Module
 import com.light.cryptocurrency.ui.currency.CurrencyDialog
@@ -22,12 +22,12 @@ import com.light.cryptocurrency.ui.rates.RatesFragment
 abstract class MainModule {
 
     @Binds
-    abstract fun fragmentFactory(impl: LoftFragmentFactory): FragmentFactory
+    abstract fun fragmentFactory(impl: CoinsFragmentFactory): FragmentFactory
 
     @Binds
     @IntoMap
     @ClassKey(RatesFragment::class)
-    abstract fun ratesFragment(impl: RatesFragment?): Fragment?
+    abstract fun ratesFragment(impl: RatesFragment): Fragment
 
     @Binds
     @IntoMap
@@ -37,6 +37,11 @@ abstract class MainModule {
     @Binds
     @IntoMap
     @ClassKey(ConverterFragment::class)
-    abstract fun converterFragment(impl: ConverterFragment?): Fragment?
+    abstract fun converterFragment(impl: ConverterFragment?): Fragment
+
+    @Binds
+    @IntoMap
+    @ClassKey(CurrencyDialog::class)
+    abstract fun currencyDialog(impl: CurrencyDialog): Fragment
 
 }
