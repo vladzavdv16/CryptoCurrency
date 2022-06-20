@@ -14,14 +14,12 @@ import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
 import dagger.Module
 import dagger.Provides
-import okhttp3.Dispatcher
 import okhttp3.Interceptor
 import okhttp3.OkHttpClient
 import okhttp3.Request
-import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
+import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
-import java.util.concurrent.ExecutorService
 import javax.inject.Singleton
 
 
@@ -56,6 +54,7 @@ abstract class DataModule {
             )
             builder.baseUrl(BuildConfig.API_ENDPOINT)
             builder.addConverterFactory(MoshiConverterFactory.create(moshi))
+            builder.addCallAdapterFactory(RxJava2CallAdapterFactory.createAsync())
             return builder.build()
         }
 

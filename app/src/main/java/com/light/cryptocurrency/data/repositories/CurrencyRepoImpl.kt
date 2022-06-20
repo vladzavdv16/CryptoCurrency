@@ -10,6 +10,7 @@ import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
 import com.light.cryptocurrency.data.model.Currency
+import io.reactivex.Observable
 
 
 @Singleton
@@ -37,28 +38,20 @@ class CurrencyRepoImpl @Inject constructor(val context: Context) : CurrencyRepo 
         return liveData
     }
 
-    override fun currency(): LiveData<Currency> {
-        return CurrencyLiveData()
+    override fun currency(): Observable<Currency> {
+        return Observable.create { emitter ->
+            val listener = SharedPreferences.OnSharedPreferenceChangeListener { prefs, key ->
+                if (!emitter.isDisposed) {
+                    emitter.onNext(availableCurrencies[prefs.getString(key, "USD")]!!)
+                }
+            }
+            prefs!!.registerOnSharedPreferenceChangeListener(listener)
+            emitter.setCancellable { prefs!!.unregisterOnSharedPreferenceChangeListener(listener) }
+            emitter.onNext(availableCurrencies[prefs!!.getString(KEY_CURRENCY, "USD")]!!)
+        }
     }
 
     override fun updateCurrency(currency: Currency) {
-        prefs?.edit()?.putString(KEY_CURRENCY,currency.code)?.apply()
-    }
-
-    inner class CurrencyLiveData : LiveData<Currency>(),
-        SharedPreferences.OnSharedPreferenceChangeListener {
-
-        override fun onActive() {
-            prefs?.registerOnSharedPreferenceChangeListener(this)
-            value = availableCurrencies[prefs?.getString(KEY_CURRENCY, "USD")]
-        }
-
-        override fun onInactive() {
-            prefs?.unregisterOnSharedPreferenceChangeListener(this)
-        }
-
-        override fun onSharedPreferenceChanged(prefs: SharedPreferences, key: String?) {
-            value = availableCurrencies[prefs.getString(key, "USD")]
-        }
+        prefs?.edit()?.putString(KEY_CURRENCY, currency.code)?.apply()
     }
 }
