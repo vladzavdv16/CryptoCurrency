@@ -1,9 +1,8 @@
-package com.light.cryptocurrency.util
+package com.light.cryptocurrency.widget
 
 import android.graphics.Outline
 import android.view.View
 import android.view.ViewOutlineProvider
-import androidx.annotation.NonNull
 import kotlin.math.min
 
 class OutlineCircle : ViewOutlineProvider() {

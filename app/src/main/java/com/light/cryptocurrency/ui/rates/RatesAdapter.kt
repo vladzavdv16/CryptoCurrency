@@ -9,10 +9,10 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.light.cryptocurrency.BuildConfig
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.model.Coin
+import com.light.cryptocurrency.data.mapper.EntityCoin
 import com.light.cryptocurrency.databinding.LiRatesBinding
 import com.light.cryptocurrency.util.loader.ImageLoader
-import com.light.cryptocurrency.util.OutlineCircle
+import com.light.cryptocurrency.widget.OutlineCircle
 import com.light.cryptocurrency.util.formatter.PercentFormatter
 import com.light.cryptocurrency.util.formatter.PriceFormatter
 import java.util.*
@@ -24,7 +24,7 @@ class RatesAdapter @Inject constructor(
     private val percentFormatter: PercentFormatter,
     private val imageLoader: ImageLoader
 ) :
-    ListAdapter<Coin, RatesAdapter.ViewHolder>(DiffUtilCallBack()) {
+    ListAdapter<EntityCoin, RatesAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     private var colorNegative = Color.RED
     private var colorPositive = Color.GREEN
@@ -32,16 +32,16 @@ class RatesAdapter @Inject constructor(
     private var inflater: LayoutInflater? = null
 
 
-    class DiffUtilCallBack : DiffUtil.ItemCallback<Coin>() {
-        override fun areItemsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+    class DiffUtilCallBack : DiffUtil.ItemCallback<EntityCoin>() {
+        override fun areItemsTheSame(oldItem: EntityCoin, newItem: EntityCoin): Boolean {
             return oldItem.id == newItem.id
         }
 
-        override fun areContentsTheSame(oldItem: Coin, newItem: Coin): Boolean {
+        override fun areContentsTheSame(oldItem: EntityCoin, newItem: EntityCoin): Boolean {
             return Objects.equals(oldItem, newItem)
         }
 
-        override fun getChangePayload(oldItem: Coin, newItem: Coin): Any {
+        override fun getChangePayload(oldItem: EntityCoin, newItem: EntityCoin): Any {
             return newItem
         }
     }
@@ -74,7 +74,7 @@ class RatesAdapter @Inject constructor(
         if (payloads.isEmpty()) {
             onBindViewHolder(holder, position)
         } else {
-            val coin = payloads.get(0) as Coin
+            val coin = payloads.get(0) as EntityCoin
             holder.binding.price.text = priceFormatter.format(coin.currencyCode, coin.price)
             holder.binding.change.text = percentFormatter.format(coin.change24h)
         }
