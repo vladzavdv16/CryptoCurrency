@@ -1,13 +1,15 @@
 package com.light.cryptocurrency.data.repositories
 
-import androidx.lifecycle.LiveData
 import com.light.cryptocurrency.data.BuilderCoinsRepoQuery
 import com.light.cryptocurrency.data.SortBy
+import com.light.cryptocurrency.data.mapper.EntityCoin
 import com.light.cryptocurrency.data.model.Coin
+import io.reactivex.Observable
+
 
 interface CoinsRepo {
 
-    fun listings(query: Query?): LiveData<List<Coin>>
+    fun listings(query: Query): Observable<List<EntityCoin>>
 
     abstract class Query {
 

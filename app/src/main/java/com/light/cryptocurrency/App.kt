@@ -16,6 +16,7 @@ class App : Application() {
         if (BuildConfig.DEBUG) {
             StrictMode.enableDefaults()
             Timber.plant(DebugThree())
+
         }
 
         component = DaggerAppComponent.builder()

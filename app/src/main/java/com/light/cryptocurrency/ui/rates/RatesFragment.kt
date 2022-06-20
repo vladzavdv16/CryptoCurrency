@@ -10,6 +10,7 @@ import com.light.cryptocurrency.di.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
+import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
@@ -20,6 +21,8 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
     private lateinit var viewModel: RatesViewModel
     private var component: RatesComponent = DaggerRatesComponent.builder()
         .baseComponent(baseComponent).build()
+
+    private val disposable = CompositeDisposable()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,11 +43,10 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
         binding!!.recycler.swapAdapter(adapter, false)
         binding!!.recycler.setHasFixedSize(true)
         binding!!.refresher.setOnRefreshListener(viewModel::refresh)
-        viewModel.coins().observe(viewLifecycleOwner,
-            { coins: List<Coin?>? -> adapter?.submitList(coins) })
-        viewModel.isRefreshing().observe(viewLifecycleOwner, { isRefreshing ->
-            binding!!.refresher.isRefreshing = isRefreshing
-        })
+        disposable.add(viewModel.coins().subscribe{ coins -> adapter?.submitList(coins) })
+        disposable.add(viewModel.isRefreshing().subscribe{ isRefreshing ->
+            binding!!.refresher.isRefreshing = isRefreshing })
+
     }
 
     override fun onCreateView(
@@ -53,12 +55,6 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
         savedInstanceState: Bundle?
     ): View? {
         return inflater.inflate(R.layout.fragment_rates, container, false)
-    }
-
-    override fun onResume() {
-        super.onResume()
-
-        println("onResume")
     }
 
     override fun onCreateOptionsMenu(menu: Menu, inflater: MenuInflater) {
@@ -81,6 +77,7 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
 
     override fun onDestroyView() {
         binding?.recycler?.swapAdapter(null, false)
+        disposable.clear()
         super.onDestroyView()
     }
 

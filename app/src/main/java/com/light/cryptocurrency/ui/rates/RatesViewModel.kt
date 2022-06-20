@@ -12,56 +12,58 @@ import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.data.repositories.CoinsRepo
 import com.light.cryptocurrency.data.repositories.CurrencyRepo
 import com.light.cryptocurrency.data.SortBy
+import com.light.cryptocurrency.data.mapper.EntityCoin
+import com.light.cryptocurrency.util.RxScheduler
+import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
+import io.reactivex.schedulers.Schedulers
+import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.Subject
 import java.util.concurrent.atomic.AtomicBoolean
 
 
 class RatesViewModel @Inject constructor(
-    val coinsRepo: CoinsRepo,
-    val currencyRepo: CurrencyRepo
-): ViewModel() {
+    private val coinsRepo: CoinsRepo,
+    private val currencyRepo: CurrencyRepo,
+    private val rxScheduler: RxScheduler
+) : ViewModel() {
 
+    private val isRefreshing: Subject<Boolean> = BehaviorSubject.create()
 
-    private val isRefreshing = MutableLiveData<Boolean>()
+    private val pullToRefresh: Subject<Class<*>> = BehaviorSubject.createDefault(Void.TYPE)
 
-    private val forceRefresh = MutableLiveData(AtomicBoolean(false))
+    private val sortBy: Subject<SortBy> = BehaviorSubject.createDefault(SortBy.RANK)
 
-    private val sortBy = MutableLiveData(SortBy.RANK)
+    private val forceUpdate = AtomicBoolean()
 
-    private val coins: LiveData<List<Coin>>
+    private val coins: Observable<List<EntityCoin>>
 
     private var sortingIndex = 2
 
     // AppComponent(BaseComponent) -> MainComponent -> Fragment(BaseComponent) -> RatesComponent -> RatesViewModel()
 
     init {
-        val query = switchMap(forceRefresh) { r ->
-            switchMap(currencyRepo.currency()) { c ->
-                r.set(true)
-                isRefreshing.postValue(true)
-                map(sortBy){ s ->
-                    CoinsRepo.Query.builder()
-                        .forceUpdate(r.getAndSet(false))
-                        .currency(c.code)
-                        .sortBy(s)
-                        .build()
-                }
-            }
-        }
-        val coins = switchMap(query) { q ->
-            coinsRepo.listings(q)
-        }
-        this.coins = map(coins) { c ->
-            isRefreshing.postValue(false)
-            c
-        }
+        coins = pullToRefresh
+            .map { CoinsRepo.Query.builder() }
+            .switchMap { qb -> currencyRepo.currency()
+                    .map { c -> qb.currency(c.code) } }
+            .doOnNext{forceUpdate.set(true)}
+            .doOnNext{isRefreshing.onNext(true)}
+            .switchMap { qb -> sortBy.map(qb::sortBy) }
+            .map { qb -> qb.forceUpdate(forceUpdate.getAndSet(false)) }
+            .map(CoinsRepo.Query.Builder::build)
+            .switchMap(coinsRepo::listings)
+            .doOnEach{ isRefreshing.onNext(false) }
     }
 
-    fun coins(): LiveData<List<Coin>> = coins
+    fun coins(): Observable<List<EntityCoin>> = coins
+        .observeOn(rxScheduler.main())
 
-    fun isRefreshing(): LiveData<Boolean> = isRefreshing
+    fun isRefreshing(): Observable<Boolean> = isRefreshing
+        .observeOn(rxScheduler.main())
 
-    fun refresh() = forceRefresh.postValue(AtomicBoolean(true))
+    fun refresh() = pullToRefresh.onNext(Void.TYPE)
 
-    fun switchOrderSorter() = sortBy.postValue(SortBy.values()[sortingIndex++ % SortBy.values().size])
+    fun switchOrderSorter() = sortBy.onNext(SortBy.values()[sortingIndex++ % SortBy.values().size])
 }
 
