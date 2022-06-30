@@ -6,6 +6,7 @@ import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
 import io.reactivex.Observable
+import io.reactivex.Single
 
 @Dao
 interface CoinsDao {
@@ -25,4 +26,7 @@ interface CoinsDao {
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
     fun insert(coins: List<RoomCoin>)
+
+    @Query("SELECT * FROM RoomCoin WHERE id=:id")
+    fun fetchOne(id: Long): Single<RoomCoin>
 }

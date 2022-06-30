@@ -6,9 +6,12 @@ import com.light.cryptocurrency.data.SortBy
 import com.light.cryptocurrency.data.database.CoinsDatabase
 import com.light.cryptocurrency.data.database.RoomCoin
 import com.light.cryptocurrency.data.mapper.EntityCoin
+import com.light.cryptocurrency.data.mapper.toEntityCoin
 import com.light.cryptocurrency.data.model.Coin
+import com.light.cryptocurrency.data.model.Currency
 import com.light.cryptocurrency.util.RxScheduler
 import io.reactivex.Observable
+import io.reactivex.Single
 import io.reactivex.schedulers.Schedulers
 import javax.inject.Singleton
 import javax.inject.Inject
@@ -21,7 +24,6 @@ class CoinsRepoImpl @Inject constructor(
     private val rxScheduler: RxScheduler
 ) : CoinsRepo {
 
-
     override fun listings(query: CoinsRepo.Query): Observable<List<EntityCoin>> {
         return Observable
             .fromCallable { query.forceUpdate() || db.coins().coinsCount() == 0 }
@@ -30,8 +32,17 @@ class CoinsRepoImpl @Inject constructor(
             .doOnNext { coins -> db.coins().insert(coins) }
             .switchMap { fetchFromDb(query) }
             .switchIfEmpty { fetchFromDb(query) }
-            .map { coins -> mapToEntityCoins(query, coins)}
+            .map { coins -> mapToEntityCoins(query, coins) }
             .subscribeOn(rxScheduler.io())
+    }
+
+    override fun coin(currency: Currency, id: Long?): Single<EntityCoin> {
+        return listings(
+            CoinsRepo.Query.builder().currency(currency.code)
+                .forceUpdate(false).build()!!)
+            .switchMapSingle { id?.let { id -> db.coins().fetchOne(id) } }
+            .firstOrError()
+            .map(RoomCoin::toEntityCoin)
     }
 
     private fun fetchFromDb(query: CoinsRepo.Query?): Observable<List<RoomCoin>> =

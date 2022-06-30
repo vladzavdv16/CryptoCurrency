@@ -23,8 +23,7 @@ class RatesAdapter @Inject constructor(
     private val priceFormatter: PriceFormatter,
     private val percentFormatter: PercentFormatter,
     private val imageLoader: ImageLoader
-) :
-    ListAdapter<EntityCoin, RatesAdapter.ViewHolder>(DiffUtilCallBack()) {
+): ListAdapter<EntityCoin, RatesAdapter.ViewHolder>(DiffUtilCallBack()) {
 
     private var colorNegative = Color.RED
     private var colorPositive = Color.GREEN

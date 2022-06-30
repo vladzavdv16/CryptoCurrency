@@ -1,22 +1,15 @@
 package com.light.cryptocurrency.ui.rates
 
 
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.Transformations.map
-import androidx.lifecycle.Transformations.switchMap
+
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
-
-import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.data.repositories.CoinsRepo
 import com.light.cryptocurrency.data.repositories.CurrencyRepo
 import com.light.cryptocurrency.data.SortBy
 import com.light.cryptocurrency.data.mapper.EntityCoin
 import com.light.cryptocurrency.util.RxScheduler
 import io.reactivex.Observable
-import io.reactivex.android.schedulers.AndroidSchedulers
-import io.reactivex.schedulers.Schedulers
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import java.util.concurrent.atomic.AtomicBoolean
