@@ -5,10 +5,7 @@ import androidx.room.Room
 import com.light.cryptocurrency.BuildConfig
 import com.light.cryptocurrency.data.api.CmcApi
 import com.light.cryptocurrency.data.database.CoinsDatabase
-import com.light.cryptocurrency.data.repositories.CoinsRepo
-import com.light.cryptocurrency.data.repositories.CoinsRepoImpl
-import com.light.cryptocurrency.data.repositories.CurrencyRepo
-import com.light.cryptocurrency.data.repositories.CurrencyRepoImpl
+import com.light.cryptocurrency.data.repositories.*
 import com.squareup.moshi.Moshi
 import com.squareup.moshi.kotlin.reflect.KotlinJsonAdapterFactory
 import dagger.Binds
@@ -82,4 +79,7 @@ abstract class DataModule {
 
     @Binds
     abstract fun currencyRepo(impl: CurrencyRepoImpl): CurrencyRepo
+
+    @Binds
+    abstract fun walletsRepo(impl: WalletsRepoImpl): WalletsRepo
 }
