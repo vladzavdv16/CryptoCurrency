@@ -10,12 +10,11 @@ data class CmcCoin(
     override val rank: Int,
     val quote: Map<String, Quote?>?,
     override val currencyCode: String? = null
-) : Coin {
+): Coin {
 
     override val price: Double = price()
 
     override val change24h: Double = change24h()
-
 
     private fun price(): Double {
         val iterator: Iterator<Quote?> = quote?.values!!.iterator()
