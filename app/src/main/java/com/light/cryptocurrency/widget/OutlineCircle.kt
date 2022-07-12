@@ -5,7 +5,7 @@ import android.view.View
 import android.view.ViewOutlineProvider
 import kotlin.math.min
 
-class OutlineCircle : ViewOutlineProvider() {
+class OutlineCircle: ViewOutlineProvider() {
 
     companion object {
         fun apply(view: View) {
