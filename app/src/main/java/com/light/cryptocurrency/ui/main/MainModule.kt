@@ -11,7 +11,7 @@ import dagger.multibindings.ClassKey
 
 import dagger.multibindings.IntoMap
 
-import com.light.cryptocurrency.ui.converter.ConverterFragment
+import com.light.cryptocurrency.converter.ConverterFragment
 
 import com.light.cryptocurrency.ui.wallets.WalletsFragment
 

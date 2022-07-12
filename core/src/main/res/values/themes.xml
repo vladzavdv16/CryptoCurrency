@@ -26,7 +26,7 @@
         <item name="android:colorBackground">?attr/colorPrimary</item>
 
         <item name="actionBarTheme">@style/AppTheme.AppBarOverlay</item>
-        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationView</item>
+<!--        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationView</item>-->
 
         <item name="textPositive">@color/weird_green</item>
         <item name="textNegative">@color/watermelon</item>
@@ -37,22 +37,6 @@
     <!-- https://material.io/develop/android/components/dialog/ -->
     <style name="AppTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
         <item name="colorSurface">@color/dark_four</item>
-    </style>
-
-    <style name="AppTheme.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
-        <item name="android:background">@color/dark_seven</item>
-        <item name="itemIconTint">@color/bottom_nav_item</item>
-        <item name="itemTextColor">@color/bottom_nav_item</item>
-    </style>
-
-    <style name="Widget.AppTheme.Button.Welcome" parent="Widget.MaterialComponents.TextView">
-        <item name="android:clickable">true</item>
-        <item name="android:focusable">true</item>
-        <item name="android:gravity">center</item>
-        <item name="android:paddingStart">64dp</item>
-        <item name="android:paddingEnd">64dp</item>
-        <item name="android:textAppearance">?attr/textAppearanceButton</item>
-        <item name="android:background">@drawable/btn_welcome</item>
     </style>
 
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">

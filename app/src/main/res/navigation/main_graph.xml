@@ -17,7 +17,7 @@
         tools:layout="@layout/fragment_wallets" />
     <fragment
         android:id="@+id/converterFragment"
-        android:name="com.light.cryptocurrency.ui.converter.ConverterFragment"
+        android:name="com.light.cryptocurrency.converter.ConverterFragment"
         android:label="@string/converter"
         tools:layout="@layout/fragment_converter" />
     <dialog
