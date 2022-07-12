@@ -15,4 +15,6 @@ interface WalletsComponent {
     fun viewModelFactory(): ViewModelProvider.Factory
 
     fun walletsAdapter(): WalletsAdapter
+
+    fun transactionsAdapter(): TransactionAdapter
 }

@@ -17,7 +17,9 @@ import com.light.cryptocurrency.data.model.Wallet
 import com.light.cryptocurrency.data.repositories.WalletsRepo
 import com.light.cryptocurrency.databinding.FragmentWalletsBinding
 import com.light.cryptocurrency.di.BaseComponent
+import com.light.cryptocurrency.util.onSnap
 import io.reactivex.disposables.CompositeDisposable
+import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -25,10 +27,11 @@ class WalletsFragment @Inject constructor(
     baseComponent: BaseComponent
 ) : Fragment() {
 
-    private lateinit var helper: SnapHelper
-
-    private var adapter: WalletsAdapter? = null
+    private var walletsAdapter: WalletsAdapter? = null
+    private var transactionAdapter: TransactionAdapter? = null
     private var viewModel: WalletsViewModel? = null
+
+    private lateinit var walletsSnapHelper: SnapHelper
 
     private var binding: FragmentWalletsBinding? = null
 
@@ -41,8 +44,10 @@ class WalletsFragment @Inject constructor(
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        viewModel = ViewModelProvider(this, component.viewModelFactory()).get(WalletsViewModel::class.java)
-        adapter = component.walletsAdapter()
+        viewModel =
+            ViewModelProvider(this, component.viewModelFactory()).get(WalletsViewModel::class.java)
+        walletsAdapter = component.walletsAdapter()
+        transactionAdapter = component.transactionsAdapter()
     }
 
     override fun onCreateView(
@@ -57,27 +62,46 @@ class WalletsFragment @Inject constructor(
         super.onViewCreated(view, savedInstanceState)
 
         binding = FragmentWalletsBinding.bind(view)
+        walletsSnapHelper = PagerSnapHelper()
+        walletsSnapHelper.attachToRecyclerView(binding!!.recycler)
 
         val value = TypedValue()
         view.context.theme.resolveAttribute(R.attr.walletCardWidth, value, true)
         val displayMetrics = view.context.resources.displayMetrics
         val padding = (displayMetrics.widthPixels - value.getDimension(displayMetrics)).toInt() / 2
-        binding!!.recycler.setPadding(padding, 0,padding,0)
+        binding!!.recycler.setPadding(padding, 0, padding, 0)
         binding!!.recycler.clipToPadding = false
         binding!!.recycler.addOnScrollListener(CarouselScroller())
+
+        disposable.add(onSnap
+            (binding!!.recycler, walletsSnapHelper)
+            .subscribe { position ->
+                viewModel?.changeWallet(position)
+            })
         binding!!.recycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
-        binding!!.recycler.adapter = adapter
-        disposable.add(viewModel?.wallets()!!.subscribe { wallets -> adapter!!.submitList(wallets) })
-        disposable.add(viewModel!!.wallets().map { wallets -> wallets.isEmpty() }.subscribe{ isEmpty ->
-            if (isEmpty) {
-                binding!!.card.visibility = View.VISIBLE
-                binding!!.recycler.visibility = View.GONE
-            } else {
-                binding!!.card.visibility = View.GONE
-                binding!!.recycler.visibility = View.VISIBLE
-            }
-        })
+        binding!!.recycler.adapter = walletsAdapter
+        disposable.add(
+            viewModel?.wallets()!!.subscribe { wallets -> walletsAdapter!!.submitList(wallets) })
+        disposable.add(viewModel!!.wallets().map { wallets -> wallets.isEmpty() }
+            .subscribe { isEmpty ->
+                if (isEmpty) {
+                    binding!!.card.visibility = View.VISIBLE
+                    binding!!.recycler.visibility = View.GONE
+                } else {
+                    binding!!.card.visibility = View.GONE
+                    binding!!.recycler.visibility = View.VISIBLE
+                }
+            })
+        binding!!.transactions.layoutManager =
+            LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
+        binding!!.transactions.adapter = transactionAdapter
+        disposable
+            .add(viewModel?.transactions()!!.subscribe({ transactions ->
+                transactionAdapter!!.submitList(transactions)
+            }, { error ->
+                Timber.d(error)
+            }))
     }
 
     override fun onDestroyView() {
