@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="64dp"
+    android:orientation="horizontal">
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:id="@+id/arrow"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:layout_marginStart="16dp"
+        android:background="@drawable/ic_arrow_drop"
+        android:enabled="true" />
+
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:layout_marginStart="24dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/balance"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textAppearance="?attr/textAppearanceHeadline3"
+            android:text="+1.5234 BTC"/>
+
+        <TextView
+            android:id="@+id/banknote"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="+2.77744 $"
+            android:textSize="12sp"
+            android:textAppearance="?attr/textAppearanceHeadline4"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/tvDate"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="13 OCT 2022"
+        android:layout_marginEnd="16dp"
+        android:textAppearance="?attr/textAppearanceHeadline5"
+        android:layout_gravity="top|end"/>
+
+</LinearLayout>
