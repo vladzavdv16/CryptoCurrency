@@ -5,7 +5,7 @@ import com.google.firebase.messaging.RemoteMessage
 import com.light.cryptocurrency.App
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.ui.main.MainActivity
-import com.light.cryptocurrency.util.notifier.Notifier
+import com.cryptocurrency.core.util.Notifier
 import io.reactivex.disposables.CompositeDisposable
 import java.util.*
 import javax.inject.Inject

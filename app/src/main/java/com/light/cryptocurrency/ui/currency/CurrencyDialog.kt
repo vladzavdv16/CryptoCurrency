@@ -1,18 +1,20 @@
 package com.light.cryptocurrency.ui.currency
 
+import android.annotation.SuppressLint
 import android.app.Dialog
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.light.cryptocurrency.di.BaseComponent
+import com.cryptocurrency.core.di.BaseComponent
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.databinding.DialogCurrencyBinding
-import com.light.cryptocurrency.widget.OnItemClick
+import com.light.cryptocurrency.converter.databinding.DialogCurrencyBinding
+import com.cryptocurrency.core.widget.OnItemClick
 import javax.inject.Inject
 
-class CurrencyDialog @Inject constructor(baseComponent: BaseComponent) : AppCompatDialogFragment() {
+class CurrencyDialog @Inject constructor(
+    baseComponent: BaseComponent): AppCompatDialogFragment() {
 
     private var binding: DialogCurrencyBinding? = null
 
@@ -36,7 +38,7 @@ class CurrencyDialog @Inject constructor(baseComponent: BaseComponent) : AppComp
     }
 
     override fun onCreateDialog(savedInstanceState: Bundle?): Dialog {
-        binding = DialogCurrencyBinding.inflate(requireActivity().layoutInflater)
+        binding = DialogCurrencyBinding.inflate(layoutInflater)
         return MaterialAlertDialogBuilder(requireActivity())
             .setTitle(R.string.currency_menu)
             .setView(binding!!.root)
@@ -44,6 +46,7 @@ class CurrencyDialog @Inject constructor(baseComponent: BaseComponent) : AppComp
     }
 
 
+    @SuppressLint("MissingSuperCall")
     override fun onActivityCreated(savedInstanceState: Bundle?) {
         super.onActivityCreated(savedInstanceState)
 
@@ -64,6 +67,7 @@ class CurrencyDialog @Inject constructor(baseComponent: BaseComponent) : AppComp
     }
 
     override fun onDestroyView() {
+        binding!!.recycler.removeOnItemTouchListener(onItemClick!!)
         binding?.recycler?.adapter = null
         super.onDestroyView()
     }

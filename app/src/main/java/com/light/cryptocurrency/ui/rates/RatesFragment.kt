@@ -6,15 +6,15 @@ import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.light.cryptocurrency.di.BaseComponent
+import com.cryptocurrency.core.di.BaseComponent
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment() {
+class RatesFragment @Inject constructor(
+    baseComponent: BaseComponent): Fragment() {
 
     private var binding: FragmentRatesBinding? = null
     private var adapter: RatesAdapter? = null
@@ -28,7 +28,7 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
         super.onCreate(savedInstanceState)
 
         viewModel =
-            ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel::class.java)
+            ViewModelProvider(requireParentFragment(), component.viewModelFactory()).get(RatesViewModel::class.java)
         adapter = component.ratesAdapter()
     }
 

@@ -7,19 +7,15 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
-import androidx.lifecycle.get
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.PagerSnapHelper
 import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.model.Wallet
-import com.light.cryptocurrency.data.repositories.WalletsRepo
 import com.light.cryptocurrency.databinding.FragmentWalletsBinding
-import com.light.cryptocurrency.di.BaseComponent
-import com.light.cryptocurrency.util.onSnap
+import com.cryptocurrency.core.di.BaseComponent
+import com.cryptocurrency.core.util.onSnap
 import io.reactivex.disposables.CompositeDisposable
-import timber.log.Timber
 import javax.inject.Inject
 
 
@@ -97,11 +93,9 @@ class WalletsFragment @Inject constructor(
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
         binding!!.transactions.adapter = transactionAdapter
         disposable
-            .add(viewModel?.transactions()!!.subscribe({ transactions ->
+            .add(viewModel?.transactions()!!.subscribe { transactions ->
                 transactionAdapter!!.submitList(transactions)
-            }, { error ->
-                Timber.d(error)
-            }))
+            })
     }
 
     override fun onDestroyView() {

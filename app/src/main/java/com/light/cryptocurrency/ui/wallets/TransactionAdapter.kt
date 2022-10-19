@@ -7,14 +7,11 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.model.Transaction
-import com.light.cryptocurrency.data.model.Wallet
+import com.cryptocurrency.core.data.model.Transaction
 import com.light.cryptocurrency.databinding.LiTransactionBinding
 import com.light.cryptocurrency.util.formatter.BalanceFormatter
 import com.light.cryptocurrency.util.formatter.PriceFormatter
-import com.light.cryptocurrency.util.loader.ImageLoader
-import com.light.cryptocurrency.widget.OutlineCircle
+import com.cryptocurrency.core.util.ImageLoader
 import java.util.*
 import javax.inject.Inject
 
@@ -43,7 +40,7 @@ class TransactionAdapter @Inject constructor(
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         val transaction = getItem(position)
         holder.binding.balance.text = priceFormatter.format(transaction.amount!!)
-        val banknote = transaction.amount * transaction.coin.price
+        val banknote = transaction.amount!! * transaction.coin.price
         val resultBanknote = priceFormatter.format(transaction.coin.currencyCode, banknote)
         holder.binding.banknote.text = resultBanknote
         holder.binding.tvDate.text = DateFormat.getDateFormat(inflater.context).format(transaction.date)
