@@ -7,8 +7,9 @@ import timber.log.Timber
 import javax.inject.Inject
 import javax.inject.Provider
 
-class CoinsFragmentFactory @Inject constructor(private val providers: Map<Class<*>, @JvmSuppressWildcards Provider<Fragment>>) :
-    FragmentFactory() {
+class CoinsFragmentFactory @Inject constructor(
+    private val providers: Map<Class<*>, @JvmSuppressWildcards Provider<Fragment>>)
+    : FragmentFactory() {
 
 
     override fun instantiate(classLoader: ClassLoader, className: String): Fragment {

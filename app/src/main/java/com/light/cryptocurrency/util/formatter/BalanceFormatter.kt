@@ -1,6 +1,6 @@
 package com.light.cryptocurrency.util.formatter
 
-import com.light.cryptocurrency.data.model.Wallet
+import com.cryptocurrency.core.data.model.Wallet
 import java.text.DecimalFormat
 import java.text.NumberFormat
 import javax.inject.Inject

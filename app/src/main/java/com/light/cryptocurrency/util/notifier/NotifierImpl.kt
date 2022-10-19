@@ -8,8 +8,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import com.cryptocurrency.core.util.Notifier
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.util.RxScheduler
+import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Completable
 import javax.inject.Inject
 import javax.inject.Singleton

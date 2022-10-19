@@ -6,7 +6,6 @@ import java.util.*
 
 class DebugThree : Timber.DebugTree() {
 
-
     override fun log(priority: Int, tag: String?, message: String, t: Throwable?) {
         val stackTrace = Throwable().fillInStackTrace().stackTrace
         val ste = stackTrace[5]

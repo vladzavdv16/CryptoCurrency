@@ -1,8 +1,8 @@
 package com.light.cryptocurrency.ui.rates
 
 import androidx.lifecycle.ViewModelProvider
-import com.light.cryptocurrency.di.BaseComponent
-import com.light.cryptocurrency.util.ViewModelModule
+import com.cryptocurrency.core.di.BaseComponent
+import com.cryptocurrency.core.util.ViewModelModule
 import dagger.Component
 import javax.inject.Singleton
 

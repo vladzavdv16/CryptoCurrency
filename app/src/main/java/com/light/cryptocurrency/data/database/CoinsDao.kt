@@ -5,6 +5,7 @@ import androidx.room.Dao
 import androidx.room.Insert
 import androidx.room.OnConflictStrategy
 import androidx.room.Query
+import com.cryptocurrency.core.data.model.RoomCoin
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -29,4 +30,7 @@ interface CoinsDao {
 
     @Query("SELECT * FROM RoomCoin WHERE id=:id")
     fun fetchOne(id: Long): Single<RoomCoin>
+
+    @Query("SELECT * FROM RoomCoin ORDER BY rank ASC LIMIT :limit")
+    fun fetchTop(limit: Int): Observable<List<RoomCoin>>
 }

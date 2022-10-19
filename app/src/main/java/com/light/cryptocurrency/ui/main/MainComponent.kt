@@ -1,6 +1,6 @@
 package com.light.cryptocurrency.ui.main
 
-import com.light.cryptocurrency.di.BaseComponent
+import com.cryptocurrency.core.di.BaseComponent
 import dagger.Component
 import javax.inject.Singleton
 

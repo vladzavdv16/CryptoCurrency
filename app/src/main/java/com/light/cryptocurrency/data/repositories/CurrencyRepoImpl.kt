@@ -9,7 +9,8 @@ import javax.inject.Singleton
 import android.content.SharedPreferences
 import androidx.preference.PreferenceManager
 import androidx.lifecycle.MutableLiveData
-import com.light.cryptocurrency.data.model.Currency
+import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryptocurrency.core.data.model.Currency
 import io.reactivex.Observable
 
 

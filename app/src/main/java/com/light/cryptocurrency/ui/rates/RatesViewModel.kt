@@ -1,19 +1,16 @@
 package com.light.cryptocurrency.ui.rates
 
-
-
 import androidx.lifecycle.ViewModel
 import javax.inject.Inject
-import com.light.cryptocurrency.data.repositories.CoinsRepo
-import com.light.cryptocurrency.data.repositories.CurrencyRepo
-import com.light.cryptocurrency.data.SortBy
-import com.light.cryptocurrency.data.mapper.EntityCoin
-import com.light.cryptocurrency.util.RxScheduler
+import com.cryptocurrency.core.data.repository.CoinsRepo
+import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryptocurrency.core.data.SortBy
+import com.cryptocurrency.core.data.mapper.EntityCoin
+import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
 import java.util.concurrent.atomic.AtomicBoolean
-
 
 class RatesViewModel @Inject constructor(
     private val coinsRepo: CoinsRepo,

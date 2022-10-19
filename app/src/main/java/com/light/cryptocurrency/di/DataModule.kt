@@ -2,6 +2,9 @@ package com.light.cryptocurrency.di
 
 import android.content.Context
 import androidx.room.Room
+import com.cryptocurrency.core.data.repository.CoinsRepo
+import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryptocurrency.core.data.repository.WalletsRepo
 import com.light.cryptocurrency.BuildConfig
 import com.light.cryptocurrency.data.api.CmcApi
 import com.light.cryptocurrency.data.database.CoinsDatabase
@@ -18,7 +21,6 @@ import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.moshi.MoshiConverterFactory
 import javax.inject.Singleton
-
 
 @Module
 abstract class DataModule {

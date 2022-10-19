@@ -1,5 +1,6 @@
 package com.light.cryptocurrency.data.model
 
+import com.cryptocurrency.core.data.model.Coin
 import com.squareup.moshi.Json
 
 data class CmcCoin(

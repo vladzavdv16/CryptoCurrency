@@ -1,6 +1,7 @@
 package com.light.cryptocurrency.util
 
 
+import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 import java.util.concurrent.ExecutorService
