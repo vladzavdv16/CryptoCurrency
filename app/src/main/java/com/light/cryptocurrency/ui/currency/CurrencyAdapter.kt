@@ -3,7 +3,7 @@ package com.light.cryptocurrency.ui.currency
 import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
-import com.light.cryptocurrency.data.model.Currency
+import com.cryptocurrency.core.data.model.Currency
 import androidx.recyclerview.widget.RecyclerView
 
 import android.view.LayoutInflater
@@ -37,7 +37,7 @@ class CurrencyAdapter : ListAdapter<Currency, CurrencyAdapter.ViewHolder?>(DiffU
 
     override fun onBindViewHolder(@NonNull holder: ViewHolder, position: Int) {
         val currency = getItem(position)
-        holder.binding.name.text = currency.name
+        holder.binding.title.text = currency.name
         holder.binding.symbol.text = currency.symbol
     }
 

@@ -2,19 +2,21 @@ package com.light.cryptocurrency.ui.rates
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
+import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.light.cryptocurrency.di.BaseComponent
+import com.cryptocurrency.core.di.BaseComponent
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.data.model.Coin
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
 
-class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment() {
+class RatesFragment @Inject constructor(
+    baseComponent: BaseComponent): Fragment() {
 
     private var binding: FragmentRatesBinding? = null
     private var adapter: RatesAdapter? = null
@@ -28,7 +30,7 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
         super.onCreate(savedInstanceState)
 
         viewModel =
-            ViewModelProvider(this, component.viewModelFactory()).get(RatesViewModel::class.java)
+            ViewModelProvider(requireParentFragment(), component.viewModelFactory()).get(RatesViewModel::class.java)
         adapter = component.ratesAdapter()
     }
 
@@ -38,14 +40,18 @@ class RatesFragment @Inject constructor(baseComponent: BaseComponent) : Fragment
 
         setHasOptionsMenu(true)
         binding = FragmentRatesBinding.bind(view)
-        binding!!.recycler.layoutManager =
+        binding?.recycler?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding!!.recycler.swapAdapter(adapter, false)
-        binding!!.recycler.setHasFixedSize(true)
-        binding!!.refresher.setOnRefreshListener(viewModel::refresh)
-        disposable.add(viewModel.coins().subscribe{ coins -> adapter?.submitList(coins) })
+        binding?.recycler?.swapAdapter(adapter, false)
+        binding?.recycler?.setHasFixedSize(true)
+        binding?.refresher?.setOnRefreshListener(viewModel::refresh)
+        disposable.add(viewModel.coins().subscribe({ coins ->
+            adapter?.submitList(coins)
+        }, {
+           Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+        }))
         disposable.add(viewModel.isRefreshing().subscribe{ isRefreshing ->
-            binding!!.refresher.isRefreshing = isRefreshing })
+            binding?.refresher?.isRefreshing = isRefreshing })
 
     }
 

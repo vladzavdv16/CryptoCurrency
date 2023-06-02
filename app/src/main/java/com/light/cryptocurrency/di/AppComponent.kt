@@ -1,6 +1,7 @@
 package com.light.cryptocurrency.di
 
 import android.app.Application
+import com.cryptocurrency.core.di.BaseComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton
@@ -11,7 +12,7 @@ import javax.inject.Singleton
         DataModule::class,
         UtilModule::class]
 )
-abstract class AppComponent : BaseComponent {
+abstract class AppComponent: BaseComponent {
 
     @Component.Builder
     abstract class Builder {

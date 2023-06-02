@@ -1,6 +1,7 @@
 package com.light.cryptocurrency.util.loader
 
 import android.widget.ImageView
+import com.cryptocurrency.core.util.ImageLoader
 import com.squareup.picasso.Picasso
 import com.squareup.picasso.RequestCreator
 import javax.inject.Inject

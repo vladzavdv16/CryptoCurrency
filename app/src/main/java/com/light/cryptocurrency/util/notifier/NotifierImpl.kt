@@ -8,8 +8,9 @@ import android.content.Intent
 import android.os.Build
 import android.os.Bundle
 import androidx.core.app.NotificationCompat
+import com.cryptocurrency.core.util.Notifier
 import com.light.cryptocurrency.R
-import com.light.cryptocurrency.util.RxScheduler
+import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Completable
 import javax.inject.Inject
 import javax.inject.Singleton
@@ -36,7 +37,7 @@ class NotifierImpl @Inject constructor(
                     0,
                     Intent(context, receiver)
                         .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-                    PendingIntent.FLAG_ONE_SHOT,
+                    PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
                     Bundle.EMPTY
                 ))
                 .build()

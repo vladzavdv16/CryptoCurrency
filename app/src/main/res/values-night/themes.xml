@@ -1,0 +1,96 @@
+<resources xmlns:tools="http://schemas.android.com/tools">
+    <!-- Base application theme. -->
+    <style name="Theme.CryptoCurrency" parent="Theme.MaterialComponents.NoActionBar">
+        <!-- Primary brand color. -->
+        <item name="colorPrimary">@color/dark_six</item>
+        <item name="colorPrimaryVariant">@color/dark</item>
+        <item name="colorOnPrimary">@color/white</item>
+        <!-- Secondary brand color. -->
+        <item name="colorSecondary">@color/teal_200</item>
+        <item name="colorSecondaryVariant">@color/teal_700</item>
+        <item name="colorOnSecondary">@color/black</item>
+        <!-- Status bar color. -->
+        <item name="android:statusBarColor" tools:targetApi="l">?attr/colorPrimaryVariant</item>
+        <!-- Customize your theme here. -->
+        <item name="buttonWelcome">@style/Widget.AppTheme.Button.Welcome</item>
+        <item name="textAppearanceHeadline1">@style/TextAppearance.AppTheme.H1</item>
+        <item name="textAppearanceHeadline2">@style/TextAppearance.AppTheme.H2</item>
+        <item name="textAppearanceHeadline3">@style/TextAppearance.AppTheme.H3</item>
+        <item name="textAppearanceHeadline4">@style/TextAppearance.AppTheme.H4</item>
+        <item name="textAppearanceHeadline5">@style/TextAppearance.AppTheme.H5</item>
+
+        <item name="walletCardWidth">240dp</item>
+        <item name="walletCardHeight">160dp</item>
+        <item name="walletCardColor">@color/dark_five</item>
+
+        <item name="android:colorBackground">?attr/colorPrimary</item>
+
+        <item name="actionBarTheme">@style/AppTheme.AppBarOverlay</item>
+        <item name="bottomNavigationStyle">@style/AppTheme.BottomNavigationView</item>
+
+        <item name="textPositive">@color/weird_green</item>
+        <item name="textNegative">@color/watermelon</item>
+
+        <item name="materialAlertDialogTheme">@style/AppTheme.AlertDialog</item>
+    </style>
+
+    <!-- https://material.io/develop/android/components/dialog/ -->
+    <style name="AppTheme.AlertDialog" parent="ThemeOverlay.MaterialComponents.MaterialAlertDialog">
+        <item name="colorSurface">@color/dark_four</item>
+    </style>
+
+    <style name="AppTheme.BottomNavigationView" parent="Widget.MaterialComponents.BottomNavigationView">
+        <item name="android:background">@color/dark_seven</item>
+        <item name="itemIconTint">@color/bottom_nav_item</item>
+        <item name="itemTextColor">@color/bottom_nav_item</item>
+    </style>
+
+    <style name="Widget.AppTheme.Button.Welcome" parent="Widget.MaterialComponents.TextView">
+        <item name="android:clickable">true</item>
+        <item name="android:focusable">true</item>
+        <item name="android:gravity">center</item>
+        <item name="android:paddingStart">64dp</item>
+        <item name="android:paddingEnd">64dp</item>
+        <item name="android:textAppearance">?attr/textAppearanceButton</item>
+        <item name="android:background">@drawable/btn_welcome</item>
+    </style>
+
+    <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.MaterialComponents.Dark.ActionBar">
+        <item name="android:background">?attr/colorPrimary</item>
+
+    </style>
+
+    <style name="TextAppearance.AppTheme" parent="TextAppearance.MaterialComponents.Body1" />
+
+    <style name="TextAppearance.AppTheme.H1">
+        <item name="android:textSize">36sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.H2">
+        <item name="android:textSize">24sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.H3">
+        <item name="android:textSize">16sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.H4">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/white</item>
+    </style>
+
+    <style name="TextAppearance.AppTheme.H5">
+        <item name="android:textSize">14sp</item>
+        <item name="android:textColor">@color/grey_blue</item>
+    </style>
+
+    <attr name="buttonWelcome" format="reference" />
+    <attr name="walletCardWidth" format="dimension|reference" />
+    <attr name="walletCardHeight" format="dimension|reference" />
+    <attr name="walletCardColor" format="color|reference" />
+    <attr name="textPositive" format="color|reference" />
+    <attr name="textNegative" format="color|reference" />
+</resources>

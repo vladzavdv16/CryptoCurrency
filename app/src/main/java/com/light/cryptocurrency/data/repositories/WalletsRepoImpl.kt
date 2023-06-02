@@ -1,27 +1,27 @@
 package com.light.cryptocurrency.data.repositories
 
-import androidx.core.util.ObjectsCompat.requireNonNull
+import com.cryptocurrency.core.data.repository.CoinsRepo
+import com.cryptocurrency.core.data.repository.WalletsRepo
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.firebase.firestore.Query
 import com.google.firebase.firestore.QuerySnapshot
-import com.light.cryptocurrency.data.model.Currency
-import com.light.cryptocurrency.data.model.Transaction
-import com.light.cryptocurrency.data.model.Wallet
+import com.cryptocurrency.core.data.model.Currency
+import com.cryptocurrency.core.data.model.Transaction
+import com.cryptocurrency.core.data.model.Wallet
 import io.reactivex.Observable
-import timber.log.Timber
 import javax.inject.Inject
 
 class WalletsRepoImpl @Inject constructor(
     private val coinsRepo: CoinsRepo
 ) : WalletsRepo {
 
-    private val firestore: FirebaseFirestore = FirebaseFirestore.getInstance()
+    private val firestore by lazy { FirebaseFirestore.getInstance() }
 
     override fun wallet(currency: Currency): Observable<List<Wallet>> =
         Observable.create<QuerySnapshot> { emitter ->
             val addSnapshotListener =
                 firestore.collection("wallets")
-                    .orderBy("coinId", Query.Direction.DESCENDING)
+                    .orderBy("created_at", Query.Direction.ASCENDING)
                     .addSnapshotListener { value, error ->
                     if (emitter.isDisposed) return@addSnapshotListener
                     if (value != null) {
