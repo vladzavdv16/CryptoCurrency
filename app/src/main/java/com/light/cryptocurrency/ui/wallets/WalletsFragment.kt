@@ -77,8 +77,10 @@ class WalletsFragment @Inject constructor(
         binding!!.recycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.recycler.adapter = walletsAdapter
-        disposable.add(
-            viewModel?.wallets()!!.subscribe { wallets -> walletsAdapter!!.submitList(wallets) })
+        viewModel?.wallets()?.subscribe { wallets ->
+            walletsAdapter?.submitList(wallets) }?.let {
+            disposable.add(it)
+        }
         disposable.add(viewModel!!.wallets().map { wallets -> wallets.isEmpty() }
             .subscribe { isEmpty ->
                 if (isEmpty) {

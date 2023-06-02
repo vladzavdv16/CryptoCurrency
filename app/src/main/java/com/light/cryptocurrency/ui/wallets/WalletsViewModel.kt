@@ -1,5 +1,6 @@
 package com.light.cryptocurrency.ui.wallets
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import com.cryptocurrency.core.data.model.Transaction
 import com.cryptocurrency.core.data.model.Wallet
@@ -22,7 +23,7 @@ class WalletsViewModel @Inject constructor(
 
     private val wallet = currencyRepo.currency()
         .switchMap(walletsRepo::wallet)
-        .doOnNext { Timber.d("%d", it.size) }
+        .doOnNext { Log.d("Zavodov", "WalletsViewModel : ${it.size}") }
         .replay(1)
         .autoConnect()
 

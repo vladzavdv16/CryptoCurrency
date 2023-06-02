@@ -49,7 +49,7 @@ class CoinsRepoImpl @Inject constructor(
        return listings(
             CoinsRepo.Query.builder().currency(c.code)
                 .forceUpdate(false).build()!!)
-           .switchMap { db.coins().fetchTop(3) }
+           .switchMap { db.coins().fetchTop(6) }
            .map { coins -> mapToEntityCoins(null,coins) }
 
     }

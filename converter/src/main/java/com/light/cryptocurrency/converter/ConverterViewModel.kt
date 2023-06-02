@@ -4,32 +4,32 @@ import androidx.lifecycle.ViewModel
 import com.cryptocurrency.core.data.mapper.EntityCoin
 import com.cryptocurrency.core.data.repository.CoinsRepo
 import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryptocurrency.core.util.ImageLoader
 import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Observable
-import io.reactivex.ObservableSource
-import io.reactivex.functions.Function
 import io.reactivex.subjects.BehaviorSubject
+import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
-import com.cryptocurrency.core.data.model.Coin
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 
 class ConverterViewModel @Inject constructor(
     private val coinsRepo: CoinsRepo,
     private val currencyRepo: CurrencyRepo,
-    private val rxScheduler: RxScheduler
+    private val rxScheduler: RxScheduler,
+    val imageLoader: ImageLoader
 ) : ViewModel() {
 
     private var topCoins: Observable<List<EntityCoin>>? = null
 
-    private val fromCoin: BehaviorSubject<EntityCoin> = BehaviorSubject.create<EntityCoin>()
+    private val fromCoin = BehaviorSubject.create<EntityCoin>()
 
-    private val toCoin: BehaviorSubject<EntityCoin> = BehaviorSubject.create()
+    private val toCoin = BehaviorSubject.create<EntityCoin>()
 
     private val fromValue = BehaviorSubject.create<String>()
 
     private val toValue = BehaviorSubject.create<String>()
-
 
     private var factor: Observable<Double>? = null
 
@@ -79,7 +79,7 @@ class ConverterViewModel @Inject constructor(
             .map { s: String -> if (s.isEmpty()) "0.0" else s }
             .map { s: String -> s.toDouble() }
             .flatMap { value: Double ->
-                factor!!.map { f: Double -> value * f }
+                factor?.map { f: Double -> value * f }
             }
             .map { v ->
                 String.format(Locale.US, "%.2f", v)

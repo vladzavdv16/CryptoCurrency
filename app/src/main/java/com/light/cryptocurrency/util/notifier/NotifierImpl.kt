@@ -37,7 +37,7 @@ class NotifierImpl @Inject constructor(
                     0,
                     Intent(context, receiver)
                         .addFlags(Intent.FLAG_ACTIVITY_SINGLE_TOP),
-                    PendingIntent.FLAG_ONE_SHOT,
+                    PendingIntent.FLAG_ONE_SHOT or PendingIntent.FLAG_IMMUTABLE,
                     Bundle.EMPTY
                 ))
                 .build()

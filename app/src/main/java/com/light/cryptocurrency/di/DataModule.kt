@@ -4,6 +4,7 @@ import android.content.Context
 import androidx.room.Room
 import com.cryptocurrency.core.data.repository.CoinsRepo
 import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryptocurrency.core.data.repository.ProfileRepo
 import com.cryptocurrency.core.data.repository.WalletsRepo
 import com.light.cryptocurrency.BuildConfig
 import com.light.cryptocurrency.data.api.CmcApi
@@ -84,4 +85,7 @@ abstract class DataModule {
 
     @Binds
     abstract fun walletsRepo(impl: WalletsRepoImpl): WalletsRepo
+
+    @Binds
+    abstract fun profileRepo(implProfileRepo: ProfileRepoImpl): ProfileRepo
 }

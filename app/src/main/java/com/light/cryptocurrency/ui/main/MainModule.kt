@@ -13,6 +13,7 @@ import dagger.multibindings.ClassKey
 import dagger.multibindings.IntoMap
 
 import com.light.cryptocurrency.converter.ConverterFragment
+import com.light.cryptocurrency.ui.profile.ProfileFragment
 
 import com.light.cryptocurrency.ui.wallets.WalletsFragment
 
@@ -49,5 +50,10 @@ abstract class MainModule {
     @IntoMap
     @ClassKey(BottomSheetCoin::class)
     abstract fun bottomSheetCoin(impl: BottomSheetCoin): Fragment
+
+    @Binds
+    @IntoMap
+    @ClassKey(ProfileFragment::class)
+    abstract fun profileFragment(impl: ProfileFragment?): Fragment
 
 }

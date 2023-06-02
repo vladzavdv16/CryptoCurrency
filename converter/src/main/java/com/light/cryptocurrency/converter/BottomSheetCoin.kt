@@ -43,7 +43,7 @@ class BottomSheetCoin @Inject constructor(
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(
-            requireParentFragment(),
+            requireActivity(),
             component.viewModelFactory()
         ).get(ConverterViewModel::class.java)
 

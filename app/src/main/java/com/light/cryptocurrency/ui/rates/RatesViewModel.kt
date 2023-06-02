@@ -1,6 +1,6 @@
 package com.light.cryptocurrency.ui.rates
 
-import androidx.lifecycle.ViewModel
+import com.cryptocurrency.core.BaseViewModel
 import javax.inject.Inject
 import com.cryptocurrency.core.data.repository.CoinsRepo
 import com.cryptocurrency.core.data.repository.CurrencyRepo
@@ -10,13 +10,14 @@ import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
+import java.util.concurrent.Flow
 import java.util.concurrent.atomic.AtomicBoolean
 
 class RatesViewModel @Inject constructor(
     private val coinsRepo: CoinsRepo,
     private val currencyRepo: CurrencyRepo,
     private val rxScheduler: RxScheduler
-) : ViewModel() {
+): BaseViewModel() {
 
     private val isRefreshing: Subject<Boolean> = BehaviorSubject.create()
 
@@ -42,8 +43,10 @@ class RatesViewModel @Inject constructor(
             .switchMap { qb -> sortBy.map(qb::sortBy) }
             .map { qb -> qb.forceUpdate(forceUpdate.getAndSet(false)) }
             .map(CoinsRepo.Query.Builder::build)
-            .switchMap(coinsRepo::listings)
+            .switchMap { coinsRepo.listings(it) }
             .doOnEach{ isRefreshing.onNext(false) }
+            .replay(1)
+            .autoConnect()
     }
 
     fun coins(): Observable<List<EntityCoin>> = coins

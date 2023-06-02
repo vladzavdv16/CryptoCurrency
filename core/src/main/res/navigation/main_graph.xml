@@ -20,6 +20,11 @@
         android:name="com.light.cryptocurrency.converter.ConverterFragment"
         android:label="@string/converter"
         tools:layout="@layout/fragment_converter" />
+    <fragment
+        android:id="@+id/profileFragment"
+        android:name="com.light.cryptocurrency.ui.profile.ProfileFragment"
+        android:label="@string/profile"
+        tools:layout="@layout/fragment_profile" />
     <dialog
         android:id="@+id/currencyDialog"
         android:name="com.light.cryptocurrency.ui.currency.CurrencyDialog"
