@@ -7,7 +7,7 @@ import androidx.appcompat.app.AppCompatDialogFragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.converter.databinding.DialogCurrencyBinding
 import com.cryptocurrency.core.widget.OnItemClick

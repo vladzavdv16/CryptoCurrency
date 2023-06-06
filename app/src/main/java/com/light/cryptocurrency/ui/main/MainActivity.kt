@@ -9,7 +9,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.ui.AppBarConfiguration
 import androidx.navigation.ui.NavigationUI
 import com.light.cryptocurrency.App
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.ActivityMainBinding
 import javax.inject.Inject

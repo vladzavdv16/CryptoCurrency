@@ -5,8 +5,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.cryptocurrency.core.data.mapper.EntityCoin
-import com.cryptocurrency.core.util.Constants
+import com.cryprocurrency.data.mapper.EntityCoin
 import com.cryptocurrency.core.util.Constants.IMG_ENDPOINT
 import com.cryptocurrency.core.util.ImageLoader
 import com.cryptocurrency.core.widget.OutlineCircle

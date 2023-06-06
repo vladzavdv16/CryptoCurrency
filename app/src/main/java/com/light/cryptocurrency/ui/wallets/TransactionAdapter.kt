@@ -7,7 +7,7 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
-import com.cryptocurrency.core.data.model.Transaction
+import com.cryprocurrency.data.model.Transaction
 import com.light.cryptocurrency.databinding.LiTransactionBinding
 import com.light.cryptocurrency.util.formatter.BalanceFormatter
 import com.light.cryptocurrency.util.formatter.PriceFormatter

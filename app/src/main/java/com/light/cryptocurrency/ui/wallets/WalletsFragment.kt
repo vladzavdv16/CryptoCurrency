@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.FragmentWalletsBinding
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
+import com.cryptocurrency.core.SharedPrefsAuthentication
 import com.cryptocurrency.core.util.onSnap
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject

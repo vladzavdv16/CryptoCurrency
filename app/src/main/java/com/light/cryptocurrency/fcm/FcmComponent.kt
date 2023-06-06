@@ -1,6 +1,6 @@
 package com.light.cryptocurrency.fcm
 
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import dagger.Component
 import javax.inject.Singleton
 

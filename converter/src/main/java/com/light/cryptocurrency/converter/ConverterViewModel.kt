@@ -1,17 +1,15 @@
 package com.light.cryptocurrency.converter
 
 import androidx.lifecycle.ViewModel
-import com.cryptocurrency.core.data.mapper.EntityCoin
-import com.cryptocurrency.core.data.repository.CoinsRepo
-import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryprocurrency.data.mapper.EntityCoin
+import com.cryprocurrency.data.repository.CoinsRepo
+import com.cryprocurrency.data.repository.CurrencyRepo
 import com.cryptocurrency.core.util.ImageLoader
 import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
-import io.reactivex.subjects.PublishSubject
 import javax.inject.Inject
 import java.util.*
-import java.util.concurrent.TimeUnit
 
 
 class ConverterViewModel @Inject constructor(

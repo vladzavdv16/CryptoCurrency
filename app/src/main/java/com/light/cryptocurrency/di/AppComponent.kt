@@ -1,7 +1,7 @@
 package com.light.cryptocurrency.di
 
 import android.app.Application
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import dagger.BindsInstance
 import dagger.Component
 import javax.inject.Singleton

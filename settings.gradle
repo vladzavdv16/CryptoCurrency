@@ -2,3 +2,4 @@ rootProject.name = "CryptoCurrency"
 include ':app'
 include ':converter'
 include ':core'
+include ':data'

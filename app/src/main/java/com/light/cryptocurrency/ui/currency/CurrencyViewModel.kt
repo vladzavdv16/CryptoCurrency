@@ -2,8 +2,8 @@ package com.light.cryptocurrency.ui.currency
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.cryptocurrency.core.data.model.Currency
-import com.cryptocurrency.core.data.repository.CurrencyRepo
+import com.cryprocurrency.data.model.Currency
+import com.cryprocurrency.data.repository.CurrencyRepo
 import javax.inject.Inject
 
 class CurrencyViewModel @Inject constructor(
