@@ -1,5 +1,6 @@
 package com.light.cryptocurrency.fcm
 
+import android.util.Log
 import com.google.firebase.messaging.FirebaseMessagingService
 import com.google.firebase.messaging.RemoteMessage
 import com.light.cryptocurrency.App
@@ -33,6 +34,8 @@ class FcmService(): FirebaseMessagingService() {
 
     override fun onNewToken(p0: String) {
         super.onNewToken(p0)
+
+        Log.d("Zavodov", "FcmService onNewToken: $p0")
     }
 
     override fun onDestroy() {

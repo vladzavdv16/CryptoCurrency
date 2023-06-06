@@ -6,9 +6,8 @@ import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
-import androidx.navigation.fragment.findNavController
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
 import io.reactivex.disposables.CompositeDisposable

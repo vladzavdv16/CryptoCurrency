@@ -2,15 +2,14 @@ package com.light.cryptocurrency.ui.rates
 
 import com.cryptocurrency.core.BaseViewModel
 import javax.inject.Inject
-import com.cryptocurrency.core.data.repository.CoinsRepo
-import com.cryptocurrency.core.data.repository.CurrencyRepo
-import com.cryptocurrency.core.data.SortBy
-import com.cryptocurrency.core.data.mapper.EntityCoin
+import com.cryprocurrency.data.repository.CoinsRepo
+import com.cryprocurrency.data.repository.CurrencyRepo
+import com.cryprocurrency.data.SortBy
+import com.cryprocurrency.data.mapper.EntityCoin
 import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Observable
 import io.reactivex.subjects.BehaviorSubject
 import io.reactivex.subjects.Subject
-import java.util.concurrent.Flow
 import java.util.concurrent.atomic.AtomicBoolean
 
 class RatesViewModel @Inject constructor(

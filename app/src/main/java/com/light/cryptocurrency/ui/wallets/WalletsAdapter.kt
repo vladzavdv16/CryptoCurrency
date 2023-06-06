@@ -6,7 +6,7 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.light.cryptocurrency.BuildConfig
-import com.cryptocurrency.core.data.model.Wallet
+import com.cryprocurrency.data.model.Wallet
 import com.light.cryptocurrency.databinding.LiWalletBinding
 import com.light.cryptocurrency.util.formatter.BalanceFormatter
 import com.light.cryptocurrency.util.formatter.PriceFormatter

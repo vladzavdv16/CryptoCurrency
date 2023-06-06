@@ -3,7 +3,7 @@ package com.light.cryptocurrency
 import android.app.Application
 import android.os.StrictMode
 import com.google.firebase.messaging.FirebaseMessaging
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import com.google.firebase.crashlytics.FirebaseCrashlytics
 import com.light.cryptocurrency.di.DaggerAppComponent
 import com.light.cryptocurrency.util.DebugThree
