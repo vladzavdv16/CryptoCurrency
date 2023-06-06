@@ -2,16 +2,14 @@ package com.light.cryptocurrency.di
 
 import android.app.Application
 import android.content.Context
-import androidx.annotation.NonNull
 import com.light.cryptocurrency.BuildConfig
-import com.light.cryptocurrency.data.api.CmcApi
+import com.cryprocurrency.data.api.CmcApi
 import com.squareup.picasso.OkHttp3Downloader
 import com.squareup.picasso.Picasso
 import dagger.Module
 import dagger.Provides
 import okhttp3.*
 import okhttp3.logging.HttpLoggingInterceptor
-import org.jetbrains.annotations.Nullable
 import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 

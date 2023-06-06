@@ -20,6 +20,7 @@
     <string name="wallets">Кошельки</string>
     <string name="rates">Курс</string>
     <string name="converter">Конвертер</string>
+    <string name="profile">Профиль</string>
 
     <!--RatesMenu-->
     <string name="currency_menu">Выбор валюты</string>
@@ -33,5 +34,9 @@
     <!--NotificationService-->
     <string name="default_channel_id" translatable="false">default_channel</string>
     <string name="default_channel_name">@string/app_name</string>
+
+    <!--ProfileFragment-->
+    <string name="btn_next_login_profile">Продолжить</string>
+
 
 </resources>

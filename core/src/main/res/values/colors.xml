@@ -31,4 +31,70 @@
     <color name="blue_grey">#9c9eb9</color>
     <color name="white">#ffffff</color>
     <color name="watermelon">#ff4465</color>
+    <color name="violet">#8000FF</color>
+
+
+    <!-- Text colors -->
+    <color name="text_primary">#1D2431</color>
+    <color name="text_secondary">#686D81</color>
+    <color name="text_tertiary">#C5C9D2</color>
+
+    <!-- Background colors -->
+    <color name="background_primary">#FFFFFF</color>
+    <color name="background_secondary">#EFF1F8</color>
+    <color name="background_tertiary">#F1F7FC</color>
+    <color name="background_accents">#234663</color>
+
+    <!-- Accent colors -->
+    <color name="accents_primary">#FFDE52</color>
+    <color name="accents_primary_dark">#F6C200</color>
+    <color name="accents_secondary">#4D92E3</color>
+
+    <!-- Result colors -->
+    <color name="result_success">#6ACB6A</color>
+    <color name="result_error">#F74455</color>
+    <color name="result_error_secondary">#FFBDC3</color>
+
+    <!-- /Colors - New Design -->
+
+    <color name="colorAccent">@color/wbYellow</color>
+    <color name="wbYellow">#FFDE52</color>
+    <color name="wbDarkGray">#9B9B9B</color>
+    <color name="wbWhite">#F6F6F6</color>
+    <color name="black_90">#323C47</color>
+    <color name="default_bg_color">#F4F5F8</color>
+    <color name="dark_bg_color">#1F2125</color>
+    <color name="divider_color">#EDEEF1</color>
+    <color name="divider_color_dark">#373A42</color>
+    <color name="description_color">#777A80</color>
+    <color name="disabled_black_btn_color">#20000000</color>
+    <color name="black_a02">#44000000</color>
+    <color name="green">#8BC34A</color>
+    <color name="loan_active_bg_color">#FEF2BB</color>
+    <color name="loan_active_text_color">#D3B105</color>
+    <color name="loan_reject_bg_color">#FEDCD6</color>
+    <color name="loan_reject_text_color">#FF2D55</color>
+    <color name="loan_success_bg_color">#330D9581</color>
+    <color name="loan_success_text_color">#0D9581</color>
+    <color name="clickable_blue">#007AFF</color>
+    <color name="next_btn_text_color">@color/black</color>
+    <color name="wbLightGray">#B3B3B3</color>
+    <color name="wbRed">#D0021B</color>
+    <color name="wbRedGpk">#CB010B</color>
+    <color name="wbBlack">#000000</color>
+    <color name="calcSumChooseGray">#E7E7E7</color>
+    <color name="wbRealWhite">#FFFFFF</color>
+    <color name="wbGrayTransp">#859B9B9B</color>
+    <color name="wbLightGrayLine">#ffe7e7e7</color>
+    <color name="wbSlimBlack">#4a4a4a</color>
+    <color name="wbOrange">#f5a623</color>
+    <color name="wbLiteGray">#E7E7E7</color>
+    <color name="wbLineGray">#D8D8D8</color>
+    <color name="wbRedAlert">#FE3D55</color>
+    <color name="wbRedText">#f2001e</color>
+    <color name="redText">#EC2127</color>
+    <color name="paid_text">#0D9581</color>
+    <color name="paid_background">#6ADEB7</color>
+    <color name="not_paid_text">#777A80</color>
+    <color name="not_paid_background">#EDEEF1</color>
 </resources>

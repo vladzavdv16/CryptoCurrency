@@ -1,10 +1,11 @@
 package com.light.cryptocurrency.ui.wallets
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
-import com.cryptocurrency.core.data.model.Transaction
-import com.cryptocurrency.core.data.model.Wallet
-import com.cryptocurrency.core.data.repository.CurrencyRepo
-import com.cryptocurrency.core.data.repository.WalletsRepo
+import com.cryprocurrency.data.model.Transaction
+import com.cryprocurrency.data.model.Wallet
+import com.cryprocurrency.data.repository.CurrencyRepo
+import com.cryprocurrency.data.repository.WalletsRepo
 import com.cryptocurrency.core.util.RxScheduler
 import io.reactivex.Completable
 import io.reactivex.Observable
@@ -22,7 +23,7 @@ class WalletsViewModel @Inject constructor(
 
     private val wallet = currencyRepo.currency()
         .switchMap(walletsRepo::wallet)
-        .doOnNext { Timber.d("%d", it.size) }
+        .doOnNext { Log.d("Zavodov", "WalletsViewModel : ${it.size}") }
         .replay(1)
         .autoConnect()
 

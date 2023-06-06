@@ -13,7 +13,8 @@ import androidx.recyclerview.widget.RecyclerView
 import androidx.recyclerview.widget.SnapHelper
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.FragmentWalletsBinding
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
+import com.cryptocurrency.core.SharedPrefsAuthentication
 import com.cryptocurrency.core.util.onSnap
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
@@ -77,8 +78,10 @@ class WalletsFragment @Inject constructor(
         binding!!.recycler.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.HORIZONTAL, false)
         binding!!.recycler.adapter = walletsAdapter
-        disposable.add(
-            viewModel?.wallets()!!.subscribe { wallets -> walletsAdapter!!.submitList(wallets) })
+        viewModel?.wallets()?.subscribe { wallets ->
+            walletsAdapter?.submitList(wallets) }?.let {
+            disposable.add(it)
+        }
         disposable.add(viewModel!!.wallets().map { wallets -> wallets.isEmpty() }
             .subscribe { isEmpty ->
                 if (isEmpty) {

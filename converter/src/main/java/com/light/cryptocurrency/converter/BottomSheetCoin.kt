@@ -1,22 +1,19 @@
 package com.light.cryptocurrency.converter
 
 import android.os.Bundle
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.lifecycle.ViewModelProvider
 import androidx.recyclerview.widget.LinearLayoutManager
-import androidx.recyclerview.widget.RecyclerView
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import com.cryptocurrency.core.util.onClick
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment
 import com.light.cryptocurrency.converter.databinding.DialogCurrencyBinding
-import com.light.cryptocurrency.converter.databinding.FragmentConverterBinding
-import io.reactivex.Observable
+import com.light.cryptocurrency.converter.di.ConverterComponent
+import com.light.cryptocurrency.converter.di.DaggerConverterComponent
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
-import kotlin.math.log
 
 class BottomSheetCoin @Inject constructor(
     baseComponent: BaseComponent
@@ -43,7 +40,7 @@ class BottomSheetCoin @Inject constructor(
         super.onCreate(savedInstanceState)
 
         viewModel = ViewModelProvider(
-            requireParentFragment(),
+            requireActivity(),
             component.viewModelFactory()
         ).get(ConverterViewModel::class.java)
 

@@ -2,11 +2,12 @@ package com.light.cryptocurrency.ui.rates
 
 import android.os.Bundle
 import android.view.*
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.lifecycle.ViewModelProvider
 import androidx.navigation.fragment.NavHostFragment
 import androidx.recyclerview.widget.LinearLayoutManager
-import com.cryptocurrency.core.di.BaseComponent
+import com.cryprocurrency.data.di.BaseComponent
 import com.light.cryptocurrency.R
 import com.light.cryptocurrency.databinding.FragmentRatesBinding
 import io.reactivex.disposables.CompositeDisposable
@@ -38,14 +39,18 @@ class RatesFragment @Inject constructor(
 
         setHasOptionsMenu(true)
         binding = FragmentRatesBinding.bind(view)
-        binding!!.recycler.layoutManager =
+        binding?.recycler?.layoutManager =
             LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false)
-        binding!!.recycler.swapAdapter(adapter, false)
-        binding!!.recycler.setHasFixedSize(true)
-        binding!!.refresher.setOnRefreshListener(viewModel::refresh)
-        disposable.add(viewModel.coins().subscribe{ coins -> adapter?.submitList(coins) })
+        binding?.recycler?.swapAdapter(adapter, false)
+        binding?.recycler?.setHasFixedSize(true)
+        binding?.refresher?.setOnRefreshListener(viewModel::refresh)
+        disposable.add(viewModel.coins().subscribe({ coins ->
+            adapter?.submitList(coins)
+        }, {
+           Toast.makeText(requireContext(), "$it", Toast.LENGTH_SHORT).show()
+        }))
         disposable.add(viewModel.isRefreshing().subscribe{ isRefreshing ->
-            binding!!.refresher.isRefreshing = isRefreshing })
+            binding?.refresher?.isRefreshing = isRefreshing })
 
     }
 

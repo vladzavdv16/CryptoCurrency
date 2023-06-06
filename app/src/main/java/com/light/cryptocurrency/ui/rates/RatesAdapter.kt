@@ -9,7 +9,7 @@ import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.light.cryptocurrency.BuildConfig
 import com.light.cryptocurrency.R
-import com.cryptocurrency.core.data.mapper.EntityCoin
+import com.cryprocurrency.data.mapper.EntityCoin
 import com.light.cryptocurrency.databinding.LiRatesBinding
 import com.cryptocurrency.core.util.ImageLoader
 import com.cryptocurrency.core.widget.OutlineCircle
